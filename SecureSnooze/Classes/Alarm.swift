@@ -8,7 +8,7 @@
 import Foundation
 
 // all possible days of the week options
-enum DaysOfTheWeek: String, CaseIterable {
+enum DaysOfTheWeek: String, CaseIterable, Codable {
     case sunday = "Sunday"
     case monday = "Monday"
     case tuesday = "Tuesday"
@@ -19,14 +19,14 @@ enum DaysOfTheWeek: String, CaseIterable {
 }
 
 // all stored alarm sounds
-enum AlarmSound: String, CaseIterable {
+enum AlarmSound: String, CaseIterable, Codable {
     case sound1 = "sound1.mp3"
     case sound2 = "sound2.mp3"
     case sound3 = "sound3.mp3"
 }
 
 // alarm object
-class Alarm {
+class Alarm: Codable {
     // alarm params
     var time: Date = Date()
     var name: String = "Alarm"
@@ -34,7 +34,7 @@ class Alarm {
     var canSnooze: Bool = true
     var limitSnoozes: Bool = false
     var snoozeTries: Int = 1
-    var snoozeLength: Int = 300
+    var snoozeLength: Int = 5
     var daysToRepeat: [DaysOfTheWeek] = []
     var enableReminder: Bool = false
     var requiresPasscodeToSnooze = false
@@ -63,5 +63,17 @@ class Alarm {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "h:mm a"
         return dateFormatter.string(from: time)
+    }
+}
+
+class Alarms {
+    var alarms: [Alarm] = []
+    
+    init() {
+        
+    }
+    
+    init(alarms: [Alarm]) {
+        self.alarms = alarms
     }
 }
