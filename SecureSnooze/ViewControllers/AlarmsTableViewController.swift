@@ -34,14 +34,7 @@ class AlarmsTableViewController: UITableViewController {
     }
     
     override func viewWillDisappear(_ animated: Bool) {
-        do {
-            let encoder = JSONEncoder()
-            let encodedData = try encoder.encode(alarms.alarms)
-            UserDefaults.standard.set(encodedData, forKey: UserDefaultsKeys.alarms.rawValue)
-        } catch {
-            print("Error conding alarms array: \(error)")
-        }
-        
+        saveAlarms()
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -85,6 +78,15 @@ class AlarmsTableViewController: UITableViewController {
         return cell
     }
     
+    // for deleting alarms
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+            if editingStyle == .delete {
+                alarms.alarms.remove(at: indexPath.row)
+                saveAlarms()
+                tableView.deleteRows(at: [indexPath], with: .fade)
+            }
+        }
+    
     // for moving to add screen
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // check for alarm tap or add button tap
@@ -124,5 +126,16 @@ class AlarmsTableViewController: UITableViewController {
     // go to empty alarm page when add button tapped
     @objc func addButtonTapped() {
         performSegue(withIdentifier: "addButtonTapped", sender: self)
+    }
+    
+    // for saving the alarms into user defaults
+    func saveAlarms() {
+        do {
+            let encoder = JSONEncoder()
+            let encodedData = try encoder.encode(alarms.alarms)
+            UserDefaults.standard.set(encodedData, forKey: UserDefaultsKeys.alarms.rawValue)
+        } catch {
+            print("Error conding alarms array: \(error)")
+        }
     }
 }
