@@ -23,6 +23,17 @@ enum AlarmSound: String, CaseIterable, Codable {
     case sound1 = "sound1.mp3"
     case sound2 = "sound2.mp3"
     case sound3 = "sound3.mp3"
+    
+    func getSoundName() -> String {
+        switch self {
+        case .sound1:
+            return "Sound1"
+        case .sound2:
+            return "Sound2"
+        case .sound3:
+            return "Sound3"
+        }
+    }
 }
 
 // alarm object

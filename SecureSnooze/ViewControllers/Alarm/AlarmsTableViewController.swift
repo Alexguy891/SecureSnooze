@@ -135,7 +135,7 @@ class AlarmsTableViewController: UITableViewController {
             let encodedData = try encoder.encode(alarms.alarms)
             UserDefaults.standard.set(encodedData, forKey: UserDefaultsKeys.alarms.rawValue)
         } catch {
-            print("Error conding alarms array: \(error)")
+            print("Error encoding alarms array: \(error)")
         }
     }
 }

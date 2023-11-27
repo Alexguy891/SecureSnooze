@@ -74,7 +74,7 @@ class AlarmSettingsTableViewController: UITableViewController {
         // applying all views to hold current alarm settings
         alarmRepeatsLabel.text = updateRepeatLabel()
         alarmNameLabel.text = alarm.name
-        alarmSoundLabel.text = String(describing: alarm.sound)
+        alarmSoundLabel.text = alarm.sound.getSoundName()
         alarmSnoozeSwitch.isOn = alarm.canSnooze
         alarmSnoozeLimitSwitch.isOn = alarm.limitSnoozes
         alarmSnoozesAttemptsLabel.text = String(Int(alarm.snoozeTries))
@@ -93,10 +93,29 @@ class AlarmSettingsTableViewController: UITableViewController {
         // for debugging
         print("AlarmSettingsTableViewController viewWillDisappear()")
         
-        if selectedAlarmIndex != -1 {
-            alarms.alarms[selectedAlarmIndex] = alarm
-        } else {
-            alarms.alarms.append(alarm)
+        if let navigationController = self.navigationController {
+            print("navigation controller set")
+            
+            print("Navigation stack: \(navigationController.viewControllers)")
+            
+            if navigationController.viewControllers.last is AlarmsTableViewController {
+                print("previous view controller is AlarmsTableViewController")
+                    if selectedAlarmIndex != -1 {
+                        print("modifying alarms")
+                        alarms.alarms[selectedAlarmIndex] = alarm
+                    } else {
+                        print("appending alarms")
+                        alarms.alarms.append(alarm)
+                    }
+            }
+        }
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        if let indexPaths = tableView.indexPathsForSelectedRows {
+            for indexPath in indexPaths {
+                tableView.deselectRow(at: indexPath, animated: false)
+            }
         }
     }
     
@@ -104,6 +123,22 @@ class AlarmSettingsTableViewController: UITableViewController {
         if let destinationViewController = segue.destination as? AlarmsTableViewController {
             print("passing alarms array")
             destinationViewController.alarms = alarms
+        } else if let destinationViewController = segue.destination as? RepeatSettingsTableViewController {
+            print("passing alarm")
+            destinationViewController.alarm = alarm
+        } else if let destinationViewController = segue.destination as? SoundSettingsTableViewController {
+            print("passing alarm")
+            destinationViewController.alarm = alarm
+        }
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if let selectedCell = tableView.cellForRow(at: indexPath) {
+            if selectedCell.reuseIdentifier == "repeatSelection" {
+                performSegue(withIdentifier: "repeatsTapped", sender: selectedCell)
+            } else if selectedCell.reuseIdentifier == "selectSound" {
+                performSegue(withIdentifier: "soundsTapped", sender: selectedCell)
+            }
         }
     }
     
