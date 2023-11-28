@@ -6,6 +6,21 @@ enum Mood: Int, CaseIterable, Codable {
     case okay = 3
     case good = 4
     case great = 5
+    
+    func getMoodName() -> String {
+        switch self {
+        case .veryBad:
+            return "Very Bad"
+        case .bad:
+            return "Bad"
+        case .okay:
+            return "Okay"
+        case .good:
+            return "Good"
+        case .great:
+            return "Great"
+        }
+    }
 }
 
 class Note: Codable, Equatable {

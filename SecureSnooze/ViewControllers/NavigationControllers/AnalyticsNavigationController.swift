@@ -1,13 +1,13 @@
 //
-//  SettingsViewController.swift
+//  AnalyticsNavigationController.swift
 //  SecureSnooze
 //
-//  Created by Alex Ely on 11/20/23.
+//  Created by Alex Ely on 11/28/23.
 //
 
 import UIKit
 
-class SettingsViewController: UIViewController {
+class AnalyticsNavigationController: UINavigationController {
 
     override func viewDidLoad() {
         super.viewDidLoad()

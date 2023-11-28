@@ -21,8 +21,11 @@ class NotesTableViewController: UITableViewController {
     
     @IBAction func notesDatePickerChanged(_ sender: Any) {
         print("NotesTableViewController notesDatePickerChanged()")
+        addNewNote(note)
         date = notesDatePicker.date
         getNote()
+        print("Date is \(date)")
+        updateDateTimePickersToDate()
         updateNoteSettings()
         tableView.reloadData()
 
@@ -41,34 +44,37 @@ class NotesTableViewController: UITableViewController {
         note.text = notesTextField.text ?? ""
     }
     @IBAction func notesTimeAsleepDatePickerChanged(_ sender: Any) {
-        note.timeAsleep = notesTimeAwakeDatePicker.date
+        note.timeAsleep = notesTimeAsleepDatePicker.date
+        notesTimeAwakeDatePicker.minimumDate = notesTimeAsleepDatePicker.date
     }
     @IBAction func notesTimeAwakeDatePickerChanged(_ sender: Any) {
         note.timeAwake = notesTimeAwakeDatePicker.date
+        notesTimeAsleepDatePicker.maximumDate = notesTimeAwakeDatePicker.date
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-//        self.navigationItem.rightBarButtonItem = self.editButtonItem
+//      self.navigationItem.rightBarButtonItem = self.editButtonItem
         self.definesPresentationContext = true
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Clear", style: .plain, target: self, action: #selector(clearButtonTapped))
     }
     
     override func viewWillAppear(_ animated: Bool) {
         print("NotesTableViewController viewWillAppear()")
+        notesDatePicker.maximumDate = Date()
         loadNotes()
         getNote()
+        updateDateTimePickersToDate()
         updateNoteSettings()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
-        print("NotesTableViewController viewWillDisappear()")
+        addNewNote(note)
         saveNotes()
+        print("NotesTableViewController viewWillDisappear()")
     }
     
     func getNoteForDate(dateToFind: Date) -> Note {
-        print("NotesTableViewController getNoteForDate(dateToFind: \(dateToFind)")
-        print("Note Dates in notes")
         if let newNote = self.notes.notes.first(where: { note in
             let calendar = Calendar.current
             let componentsToFind = calendar.dateComponents([.year, .month, .day], from: dateToFind)
@@ -76,15 +82,23 @@ class NotesTableViewController: UITableViewController {
             
             return componentsToFind == componentsOfNote
         }) {
-            print("note found")
             return newNote
         } else {
-            print("note not found, creating...")
             let newNote = Note()
-            notes.notes.append(newNote)
-            print("newNote appended to notes")
             return newNote
         }
+    }
+    
+    func updateDateTimePickersToDate() {
+        let previousDay = Calendar.current.date(byAdding: .day, value: -1, to: date) ?? Date()
+        
+        notesTimeAwakeDatePicker.date = note.timeAwake
+        notesTimeAsleepDatePicker.date = note.timeAsleep
+        
+        notesTimeAsleepDatePicker.minimumDate = Calendar.current.startOfDay(for: previousDay)
+        notesTimeAwakeDatePicker.maximumDate = Calendar.current.date(bySettingHour: 24, minute: 59, second: 59, of: date)
+        notesTimeAsleepDatePicker.maximumDate = notesTimeAwakeDatePicker.date
+        notesTimeAwakeDatePicker.minimumDate = notesTimeAsleepDatePicker.date
     }
     
 //    func updateNoteSettingsIsEnabled() {
@@ -93,6 +107,27 @@ class NotesTableViewController: UITableViewController {
 //        notesTimeAsleepDatePicker.isEnabled = editEnabled
 //        notesTimeAwakeDatePicker.isEnabled = editEnabled
 //    }
+    
+    func addNewNote(_ newNote: Note) {
+        if newNote.text != "" && newNote.timeAwake.timeIntervalSince(newNote.timeAsleep) > 0 {
+            let calendar = Calendar.current
+            
+            
+            for note in notes.notes {
+                let originalDateComponents = calendar.dateComponents([.day, .month, .year], from: note.date)
+                let newNoteDateComponents = calendar.dateComponents([.day, .month, .year], from: newNote.date)
+                
+                if originalDateComponents == newNoteDateComponents {
+                    return
+                }
+            }
+            
+            print("newNote appended to notes")
+            notes.notes.append(newNote)
+        }
+        
+        
+    }
     
     func getNote() {
         print("NotesTableViewController getNotes()")
@@ -106,7 +141,7 @@ class NotesTableViewController: UITableViewController {
         notesMoodSegmentedControl.selectedSegmentIndex = note.mood.rawValue - 1
         notesTextField.text = note.text
         notesTimeAsleepDatePicker.date = note.timeAsleep
-        notesTimeAwakeDatePicker.date = note.timeAsleep
+        notesTimeAwakeDatePicker.date = note.timeAwake
     }
     
     @objc func clearButtonTapped() {
