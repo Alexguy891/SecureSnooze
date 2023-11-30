@@ -85,7 +85,6 @@ class AnalyticsTableViewController: UITableViewController {
     }
     
     func calculateAverageHoursAsleep() {
-        let sortedNotesByDate = notes.notes.sorted(by: { $0.date < $1.date })
         let totalHoursAsleep = notesInDateRange.map { ($0.timeAwake.timeIntervalSince($0.timeAsleep)) / 60 / 60}
         
         averageHoursAsleep = round(Double(totalHoursAsleep.reduce(0, +)) / Double(notesInDateRange.count) * 10) / 10

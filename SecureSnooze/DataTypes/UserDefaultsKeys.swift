@@ -11,4 +11,6 @@ import Foundation
 enum UserDefaultsKeys: String {
     case alarms = "alarms"
     case notes = "notes"
+    case settings = "settings"
+    case passcode = "passcode"
 }

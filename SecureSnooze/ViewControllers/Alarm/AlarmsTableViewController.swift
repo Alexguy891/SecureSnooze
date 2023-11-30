@@ -10,6 +10,7 @@ import UIKit
 class AlarmsTableViewController: UITableViewController {
     // array of Alarm objects
     var alarms: Alarms = Alarms()
+    var settings: Settings = Settings()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,7 +21,8 @@ class AlarmsTableViewController: UITableViewController {
         alarms = loadAlarms()
         
         // enable edit button
-        navigationItem.leftBarButtonItem = editButtonItem
+        let editButton = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(editButtonTapped))
+        navigationItem.leftBarButtonItem = editButton
         
         // enable add button
         let addButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addButtonTapped))
@@ -30,6 +32,7 @@ class AlarmsTableViewController: UITableViewController {
     override func viewWillAppear(_ animated: Bool) {
         print("AlarmsTableViewController viewWillAppear()")
         print("alarms.count is \(alarms.alarms.count)")
+        settings.loadSettings()
         tableView.reloadData()
     }
     
@@ -41,7 +44,11 @@ class AlarmsTableViewController: UITableViewController {
         // get selected alarm
         let selectedAlarm = alarms.alarms[indexPath.row]
         // segue with the selected alarm
-        performSegue(withIdentifier: "alarmTapped", sender: selectedAlarm)
+        if settings.requirePasscodeToChangeAlarms {
+            performSegue(withIdentifier: "alarmPasscode", sender: indexPath.row)
+        } else {
+            performSegue(withIdentifier: "alarmTapped", sender: selectedAlarm)
+        }
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -102,6 +109,16 @@ class AlarmsTableViewController: UITableViewController {
                 destinationViewController.alarms = self.alarms
                 destinationViewController.selectedAlarmIndex = -1
             }
+        } else if segue.identifier == "alarmPasscode", let passcodeDestination = segue.destination as? PasscodeViewController {
+            passcodeDestination.dismissalCallback = {
+                if sender is Int {
+                    self.performSegue(withIdentifier: "alarmTapped", sender: self)
+                } else if sender is AlarmsTableViewController {
+                    self.performSegue(withIdentifier: "addButtonTapped", sender: self)
+                } else if sender is UIBarButtonItem {
+                    self.setEditing(true, animated: true)
+                }
+            }
         }
     }
     
@@ -125,7 +142,31 @@ class AlarmsTableViewController: UITableViewController {
     
     // go to empty alarm page when add button tapped
     @objc func addButtonTapped() {
-        performSegue(withIdentifier: "addButtonTapped", sender: self)
+        if settings.requirePasscodeToChangeAlarms {
+            performSegue(withIdentifier: "alarmPasscode", sender: self)
+        } else {
+            performSegue(withIdentifier: "addButtonTapped", sender: self)
+        }
+    }
+    
+    @objc func editButtonTapped() {
+        if settings.requirePasscodeToChangeAlarms {
+            if !isEditing {
+                performSegue(withIdentifier: "alarmPasscode", sender: editButtonItem)
+                navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(editButtonTapped))
+            } else {
+                setEditing(false, animated: true)
+                navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Edit", style: .plain, target: self, action: #selector(editButtonTapped))
+            }
+        } else {
+            if !isEditing {
+                setEditing(true, animated: true)
+                navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(editButtonTapped))
+            } else {
+                setEditing(false, animated: true)
+                navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Edit", style: .plain, target: self, action: #selector(editButtonTapped))
+            }
+        }
     }
     
     // for saving the alarms into user defaults
