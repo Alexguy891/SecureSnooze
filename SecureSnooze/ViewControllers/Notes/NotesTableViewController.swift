@@ -63,7 +63,6 @@ class NotesTableViewController: UITableViewController {
         print("NotesTableViewController viewWillAppear()")
         notesDatePicker.maximumDate = Date()
         loadNotes()
-        date = Date()
         getNote()
         updateDateTimePickersToDate()
         updateNoteSettings()
