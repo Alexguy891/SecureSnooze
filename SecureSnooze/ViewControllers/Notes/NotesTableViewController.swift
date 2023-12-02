@@ -63,9 +63,12 @@ class NotesTableViewController: UITableViewController {
         print("NotesTableViewController viewWillAppear()")
         notesDatePicker.maximumDate = Date()
         loadNotes()
+        date = Date()
         getNote()
         updateDateTimePickersToDate()
         updateNoteSettings()
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(viewTapped))
+        view.addGestureRecognizer(tapGestureRecognizer)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -84,19 +87,27 @@ class NotesTableViewController: UITableViewController {
         }) {
             return newNote
         } else {
+            print("newNote = Note()")
             let newNote = Note()
+            print("newNote date is \(date)")
+            newNote.date = date
+            print("newNote.date = \(date)")
+            newNote.timeAsleep = Calendar.current.date(byAdding: .hour, value: -8, to: date) ?? Date()
+            newNote.timeAwake = date
             return newNote
         }
     }
     
     func updateDateTimePickersToDate() {
         let previousDay = Calendar.current.date(byAdding: .day, value: -1, to: date) ?? Date()
-        
+        print("previousDay = \(previousDay)")
+        print(note.timeAwake)
+        print(note.timeAsleep)
         notesTimeAwakeDatePicker.date = note.timeAwake
         notesTimeAsleepDatePicker.date = note.timeAsleep
-        
         notesTimeAsleepDatePicker.minimumDate = Calendar.current.startOfDay(for: previousDay)
-        notesTimeAwakeDatePicker.maximumDate = Calendar.current.date(bySettingHour: 24, minute: 59, second: 59, of: date)
+        notesTimeAwakeDatePicker.maximumDate = Calendar.current.date(bySettingHour: 23, minute: 59, second: 59, of: date)
+        print("notesTimeAwakeDatePicker.maximumDate = \(String(describing: notesTimeAwakeDatePicker.maximumDate))")
         notesTimeAsleepDatePicker.maximumDate = notesTimeAwakeDatePicker.date
         notesTimeAwakeDatePicker.minimumDate = notesTimeAsleepDatePicker.date
     }
@@ -130,9 +141,11 @@ class NotesTableViewController: UITableViewController {
     }
     
     func getNote() {
-        print("NotesTableViewController getNotes()")
+        print("NotesTableViewController getNote()")
         note = getNoteForDate(dateToFind: date)
-        note.date = date
+        print("Note date = \(note.date)")
+        print("Note date = \(note.timeAwake)")
+        print("Note date = \(note.timeAsleep)")
     }
     
     func updateNoteSettings() {
@@ -140,15 +153,19 @@ class NotesTableViewController: UITableViewController {
         notesDatePicker.date = note.date
         notesMoodSegmentedControl.selectedSegmentIndex = note.mood.rawValue - 1
         notesTextField.text = note.text
-        notesTimeAsleepDatePicker.date = note.timeAsleep
-        notesTimeAwakeDatePicker.date = note.timeAwake
     }
     
     @objc func clearButtonTapped() {
         notes.notes.removeAll(where: {$0.date == date})
         note = Note()
         note.date = date
+        note.timeAsleep = Calendar.current.date(byAdding: .hour, value: -8, to: date) ?? Date()
+        note.timeAwake = date
         updateNoteSettings()
+    }
+    
+    @objc func viewTapped() {
+        view.endEditing(true)
     }
     
     func loadNotes() {
