@@ -791,7 +791,7 @@
                                                     <rect key="frame" x="20" y="11" width="353" height="138"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                                    <textInputTraits key="textInputTraits"/>
+                                                    <textInputTraits key="textInputTraits" autocorrectionType="yes"/>
                                                     <connections>
                                                         <action selector="notesTextFieldChanged:" destination="dsn-dS-mc9" eventType="editingChanged" id="9I4-qJ-diZ"/>
                                                     </connections>
@@ -1205,7 +1205,7 @@
                         <outlet property="requirePasscodeToChangeAlarmsSwitch" destination="ixc-8p-b7W" id="QHy-am-Sxd"/>
                         <outlet property="requirePasscodeToChangeRemindersSwitch" destination="GQ9-LN-564" id="gDt-GI-Tcr"/>
                         <outlet property="requirePasscodeToChangeSleepGoalSwitch" destination="FaA-Vs-kXk" id="xvO-xW-Xz1"/>
-                        <segue destination="kz0-HG-9ok" kind="show" identifier="changePasscodeTapped" id="NN3-fX-O90"/>
+                        <segue destination="kz0-HG-9ok" kind="presentation" identifier="changePasscodeTapped" id="NN3-fX-O90"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="onv-Sr-rnu" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -1327,7 +1327,7 @@
     </scenes>
     <inferredMetricsTieBreakers>
         <segue reference="fTJ-kk-zjb"/>
-        <segue reference="9uI-ox-ymo"/>
+        <segue reference="NN3-fX-O90"/>
         <segue reference="d9C-Tb-fdF"/>
     </inferredMetricsTieBreakers>
     <resources>

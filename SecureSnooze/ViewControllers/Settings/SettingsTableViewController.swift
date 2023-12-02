@@ -24,6 +24,14 @@ class SettingsTableViewController: UITableViewController {
         settings.saveSettings()
     }
     
+    override func viewDidDisappear(_ animated: Bool) {
+        if let indexPaths = tableView.indexPathsForSelectedRows {
+            for indexPath in indexPaths {
+                tableView.deselectRow(at: indexPath, animated: false)
+            }
+        }
+    }
+    
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         // get selected alarm
         let selectedCell = tableView.cellForRow(at: indexPath)
