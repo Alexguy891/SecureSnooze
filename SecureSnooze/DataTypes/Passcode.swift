@@ -31,8 +31,8 @@ class Passcode: Codable {
     }
     
     func savePasscode() {
+        print("Passcode savePasscode()")
         do {
-            print("Passcode being saved is: \(passcode)")
             let encoder = JSONEncoder()
             let encodedData = try encoder.encode(self)
             UserDefaults.standard.set(encodedData, forKey: UserDefaultsKeys.passcode.rawValue)
@@ -42,11 +42,11 @@ class Passcode: Codable {
     }
     
     func loadPasscode() {
+        print("Passcode loadPasscode()")
         if let passcodeData = UserDefaults.standard.data(forKey: UserDefaultsKeys.passcode.rawValue) {
             do {
                 let decoder = JSONDecoder()
                 let decodedPasscode = try decoder.decode(Passcode.self, from: passcodeData)
-                print("Loaded passcode is \(decodedPasscode.passcode)")
                 self.passcode = decodedPasscode.passcode
             } catch {
                 print("Error decoding passcode: \(error)")

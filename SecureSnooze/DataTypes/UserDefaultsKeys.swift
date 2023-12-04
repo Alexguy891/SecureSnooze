@@ -9,8 +9,10 @@ import Foundation
 
 // stores all user default keys
 enum UserDefaultsKeys: String {
-    case alarms = "alarms"
+    case alarm = "alarm"
     case notes = "notes"
     case settings = "settings"
     case passcode = "passcode"
+    case firstTimeOpen = "firstTimeOpen"
+    case alarmNotificationManager = "alarmNotificationManager"
 }

@@ -55,8 +55,6 @@ class SettingsTableViewController: UITableViewController {
             } else {
                 performSegue(withIdentifier: "securityPasscode", sender: selectedCell)
             }
-        case "calendar":
-            performSegue(withIdentifier: "calendarTapped", sender: selectedCell)
         case "extraSecuritySteps":
             performSegue(withIdentifier: "extraSecurityStepsTapped", sender: selectedCell)
         default:
@@ -70,8 +68,6 @@ class SettingsTableViewController: UITableViewController {
         } else if let destinationViewController = segue.destination as? ReminderSettingsTableViewController {
             destinationViewController.settings = settings
         } else if let destinationViewController = segue.destination as? SecurityPasscodeSettingsTableViewController {
-            destinationViewController.settings = settings
-        } else if let destinationViewController = segue.destination as? CalendarSettingsTableViewController {
             destinationViewController.settings = settings
         } else if let destinationViewController = segue.destination as? PasscodeViewController {
             if segue.identifier == "sleepGoalPasscode" {

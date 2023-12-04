@@ -12,7 +12,7 @@ class SecurityPasscodeSettingsTableViewController: UITableViewController {
     
     @IBOutlet weak var requirePasscodeToChangeSleepGoalSwitch: UISwitch!
     @IBOutlet weak var requirePasscodeToChangeRemindersSwitch: UISwitch!
-    @IBOutlet weak var requirePasscodeToChangeAlarmsSwitch: UISwitch!
+    @IBOutlet weak var requirePasscodeToChangeAlarmSwitch: UISwitch!
     @IBOutlet weak var changePasscodeButton: UIButton!
     
     @IBAction func requirePasscodeToChangeSleepGoalSwitchChanged(_ sender: Any) {
@@ -21,8 +21,8 @@ class SecurityPasscodeSettingsTableViewController: UITableViewController {
     @IBAction func requirePasscodeToChangeRemindersSwitchChanged(_ sender: Any) {
         settings.requirePasscodeToChangeReminderSettings = requirePasscodeToChangeRemindersSwitch.isOn
     }
-    @IBAction func requirePasscodeToChangeAlarmsSwitchChanged(_ sender: Any) {
-        settings.requirePasscodeToChangeAlarms = requirePasscodeToChangeAlarmsSwitch.isOn
+    @IBAction func requirePasscodeToChangeAlarmSwitchChanged(_ sender: Any) {
+        settings.requirePasscodeToChangeAlarm = requirePasscodeToChangeAlarmSwitch.isOn
     }
     @IBAction func changePasscodeButtonTapped(_ sender: Any) {
         performSegue(withIdentifier: "changePasscodeTapped", sender: changePasscodeButton)
@@ -36,7 +36,7 @@ class SecurityPasscodeSettingsTableViewController: UITableViewController {
     override func viewWillAppear(_ animated: Bool) {
         requirePasscodeToChangeSleepGoalSwitch.isOn = settings.requirePasscodeToChangeSleepGoal
         requirePasscodeToChangeRemindersSwitch.isOn = settings.requirePasscodeToChangeReminderSettings
-        requirePasscodeToChangeAlarmsSwitch.isOn = settings.requirePasscodeToChangeAlarms
+        requirePasscodeToChangeAlarmSwitch.isOn = settings.requirePasscodeToChangeAlarm
     }
     
     override func viewWillDisappear(_ animated: Bool) {

@@ -7,31 +7,20 @@
 
 import Foundation
 
-// all possible days of the week options
-enum DaysOfTheWeek: String, CaseIterable, Codable {
-    case sunday = "Sunday"
-    case monday = "Monday"
-    case tuesday = "Tuesday"
-    case wednesday = "Wednesday"
-    case thursday = "Thursday"
-    case friday = "Friday"
-    case saturday = "Saturday"
-}
-
 // all stored alarm sounds
 enum AlarmSound: String, CaseIterable, Codable {
-    case sound1 = "sound1.mp3"
-    case sound2 = "sound2.mp3"
-    case sound3 = "sound3.mp3"
+    case sound1 = "digital"
+    case sound2 = "analog"
+    case sound3 = "future"
     
     func getSoundName() -> String {
         switch self {
         case .sound1:
-            return "Sound1"
+            return "Digital"
         case .sound2:
-            return "Sound2"
+            return "Analog"
         case .sound3:
-            return "Sound3"
+            return "Future"
         }
     }
 }
@@ -40,13 +29,11 @@ enum AlarmSound: String, CaseIterable, Codable {
 class Alarm: Codable {
     // alarm params
     var time: Date = Date()
-    var name: String = "Alarm"
     var sound: AlarmSound = .sound1
     var canSnooze: Bool = true
     var limitSnoozes: Bool = false
     var snoozeTries: Int = 1
     var snoozeLength: Int = 5
-    var daysToRepeat: [DaysOfTheWeek] = []
     var enableReminder: Bool = false
     var requiresPasscodeToSnooze = false
     
@@ -56,15 +43,13 @@ class Alarm: Codable {
     }
     
     // regular init
-    init(time: Date, name: String, sound: AlarmSound, canSnooze: Bool, limitSnoozes: Bool, snoozeTries: Int, snoozeLength: Int, daysToRepeat: [DaysOfTheWeek], enableReminder: Bool, requiresPasscodeToSnooze: Bool = false) {
+    init(time: Date, sound: AlarmSound, canSnooze: Bool, limitSnoozes: Bool, snoozeTries: Int, snoozeLength: Int, enableReminder: Bool, requiresPasscodeToSnooze: Bool = false) {
         self.time = time
-        self.name = name
         self.sound = sound
         self.canSnooze = canSnooze
         self.limitSnoozes = limitSnoozes
         self.snoozeTries = snoozeTries
         self.snoozeLength = snoozeLength
-        self.daysToRepeat = daysToRepeat
         self.enableReminder = enableReminder
         self.requiresPasscodeToSnooze = requiresPasscodeToSnooze
     }
@@ -75,16 +60,37 @@ class Alarm: Codable {
         dateFormatter.dateFormat = "h:mm a"
         return dateFormatter.string(from: time)
     }
-}
-
-class Alarms {
-    var alarms: [Alarm] = []
     
-    init() {
+    func loadAlarm() {
+        // cast to array of alarm and return
+        if let alarmData = UserDefaults.standard.data(forKey: UserDefaultsKeys.alarm.rawValue) {
+            do {
+                let decoder = JSONDecoder()
+                let decodedAlarm = try decoder.decode(Alarm.self, from: alarmData)
+                self.time = decodedAlarm.time
+                self.sound = decodedAlarm.sound
+                self.canSnooze = decodedAlarm.canSnooze
+                self.limitSnoozes = decodedAlarm.limitSnoozes
+                self.snoozeTries = decodedAlarm.snoozeTries
+                self.snoozeLength = decodedAlarm.snoozeLength
+                self.enableReminder = decodedAlarm.enableReminder
+                self.requiresPasscodeToSnooze = decodedAlarm.requiresPasscodeToSnooze
+            } catch {
+                print("Error decoding alarm: \(error)")
+            }
+        }
         
+        // print failure and return empty array if cast fails
+        print("Failed to load alarm from UserDefaults")
     }
     
-    init(alarms: [Alarm]) {
-        self.alarms = alarms
+    func saveAlarm() {
+        do {
+            let encoder = JSONEncoder()
+            let encodedData = try encoder.encode(self)
+            UserDefaults.standard.set(encodedData, forKey: UserDefaultsKeys.alarm.rawValue)
+        } catch {
+            print("Error encoding alarm: \(error)")
+        }
     }
 }

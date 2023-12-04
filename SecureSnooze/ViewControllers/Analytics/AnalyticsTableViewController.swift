@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SwiftUI
 
 class AnalyticsTableViewController: UITableViewController {
     // placeholder
@@ -26,6 +27,7 @@ class AnalyticsTableViewController: UITableViewController {
     @IBOutlet weak var analyticsAverageOverallSleepQualityLabel: UILabel!
     @IBOutlet weak var analyticsMedianBedtimeLabel: UILabel!
     @IBOutlet weak var analyticsMedianWakeTimeLabel: UILabel!
+    @IBOutlet weak var dateRangeLabel: UILabel!
     
     @IBAction func analyticsDateRangeSegmentedControlChanged(_ sender: Any) {
         getStartDateForSelectedDateRange()
@@ -82,12 +84,11 @@ class AnalyticsTableViewController: UITableViewController {
             calculateMedianBedtime()
             calculateMedianWakeTime()
         }
-        print("notesInDateRange is empty")
     }
     
     func calculateAverageHoursAsleep() {
         let totalHoursAsleep = notesInDateRange.map { ($0.timeAwake.timeIntervalSince($0.timeAsleep)) / 60 / 60}
-        
+
         averageHoursAsleep = round(Double(totalHoursAsleep.reduce(0, +)) / Double(notesInDateRange.count) * 10) / 10
     }
     
@@ -123,13 +124,27 @@ class AnalyticsTableViewController: UITableViewController {
     }
     
     func updateLabels() {
+        let dateFormatter = DateFormatter()
+
+        dateFormatter.dateFormat = "MM/dd/yyyy"
+        dateRangeLabel.text = "\(dateFormatter.string(from: startDate)) to \(dateFormatter.string(from: Date()))"
+        
+        if notesInDateRange.isEmpty {
+            analyticsAverageHoursAsleepLabel.text = "N/A"
+            analyticsMedianMoodLabel.text = "N/A"
+            analyticsAverageOverallSleepQualityLabel.text = "N/A"
+            analyticsMedianBedtimeLabel.text = "N/A"
+            analyticsMedianWakeTimeLabel.text = "N/A"
+            
+            return
+        }
+        
         analyticsAverageHoursAsleepLabel.text = averageHoursAsleep == 1 ?  "\(String(averageHoursAsleep)) hr" : "\(String(averageHoursAsleep)) hrs"
         
         analyticsMedianMoodLabel.text = medianMood.getMoodName()
         
         analyticsAverageOverallSleepQualityLabel.text = "\(String(averageOverallSleepQuality)) %"
         
-        let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "h:mm a"
         
         analyticsMedianBedtimeLabel.text = dateFormatter.string(from: medianBedtime)

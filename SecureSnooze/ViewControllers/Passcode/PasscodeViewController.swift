@@ -23,7 +23,6 @@ class PasscodeViewController: UIViewController {
     
     @IBAction func passcodeTextFieldChanged(_ sender: Any) {
         if passcodeTextField.text?.count == 4 {
-            print("creatingNewPasscode = \(creatingNewPasscode)")
             if creatingNewPasscode {
                 if passcodeDoesExist {
                     if correctPasscodeEntered {
@@ -117,12 +116,12 @@ class PasscodeViewController: UIViewController {
     }
     
     func verifyNewPasscode() -> Bool {
-        print("verifyNewPasscode()")
+        print("Passcode verifyNewPasscode()")
         return newPasscode == passcode.hashPasscode(passcodeTextField.text ?? "")
     }
     
     func checkEnteredPasscode() -> Bool {
-        print("checkEnteredPasscode()")
+        print("Passcode checkEnteredPasscode()")
         return passcode.checkPasscode(input: passcodeTextField.text ?? "")
     }
     
@@ -133,25 +132,20 @@ class PasscodeViewController: UIViewController {
     }
     
     func createNewPasscode() {
-        print("createNewPasscode()")
+        print("Passcode createNewPasscode()")
         if verifyNewPasscode() {
-            print("verifyNewPasscode() == true")
             passcode.setNewPasscode(input: passcodeTextField.text ?? "")
             saveNewPasscode()
-        } else {
-            print("verifyNewPasscode == false")
         }
     }
     
     func saveNewPasscode() {
-        print("saveNewPasscode()")
-        print("New passcode being saved is: \(passcode.passcode)")
+        print("Passcode saveNewPasscode()")
         passcode.savePasscode()
     }
     
     func loadPasscode() {
         print("loadPasscode()")
         passcode.loadPasscode()
-        print("Loaded passcode is: \(passcode.passcode)")
     }
 }

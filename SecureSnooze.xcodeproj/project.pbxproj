@@ -23,17 +23,23 @@
 		AA2372B42B17B5E30009BFA9 /* SleepGoalSettingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA2372B32B17B5E30009BFA9 /* SleepGoalSettingsTableViewController.swift */; };
 		AA2372B62B17B5FA0009BFA9 /* ReminderSettingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA2372B52B17B5FA0009BFA9 /* ReminderSettingsTableViewController.swift */; };
 		AA2372B82B17B60F0009BFA9 /* SecurityPasscodeSettingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA2372B72B17B60F0009BFA9 /* SecurityPasscodeSettingsTableViewController.swift */; };
-		AA2372BA2B17B6230009BFA9 /* CalendarSettingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA2372B92B17B6230009BFA9 /* CalendarSettingsTableViewController.swift */; };
 		AA2372BC2B17B6410009BFA9 /* ExtraSecurityStepsSettingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA2372BB2B17B6410009BFA9 /* ExtraSecurityStepsSettingsTableViewController.swift */; };
 		AA567E172B16501A003C8BD0 /* AnalyticsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA567E162B16501A003C8BD0 /* AnalyticsTableViewController.swift */; };
 		AA567E192B1688FE003C8BD0 /* AnalyticsNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA567E182B1688FE003C8BD0 /* AnalyticsNavigationController.swift */; };
-		AA6BCA5A2B150C450055D2B9 /* RepeatSettingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA6BCA592B150C450055D2B9 /* RepeatSettingsTableViewController.swift */; };
+		AA644B1E2B1CE9C1006F3C79 /* WelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA644B1D2B1CE9C1006F3C79 /* WelcomeViewController.swift */; };
+		AA644B202B1CF2F5006F3C79 /* SleepQualityChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA644B1F2B1CF2F5006F3C79 /* SleepQualityChart.swift */; };
 		AA6BCA5C2B1515960055D2B9 /* SoundSettingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA6BCA5B2B1515960055D2B9 /* SoundSettingsTableViewController.swift */; };
 		AA6BCA5E2B151EA30055D2B9 /* NotesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA6BCA5D2B151EA30055D2B9 /* NotesTableViewController.swift */; };
 		AA6BCA622B15247C0055D2B9 /* Note.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA6BCA612B15247C0055D2B9 /* Note.swift */; };
 		AA8C10DE2B1911CB00B967EF /* PasscodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA8C10DD2B1911CB00B967EF /* PasscodeViewController.swift */; };
 		AA8C10E12B19121000B967EF /* Passcode.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA8C10E02B19121000B967EF /* Passcode.swift */; };
-		AADCB5C82B0C204400F0AA3C /* AlarmsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AADCB5C72B0C204400F0AA3C /* AlarmsTableViewController.swift */; };
+		AAC7B27B2B1D0B080013BEB3 /* AlarmNotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAC7B27A2B1D0B080013BEB3 /* AlarmNotificationManager.swift */; };
+		AAC7B2812B1D1E690013BEB3 /* analog.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = AAC7B27E2B1D1E690013BEB3 /* analog.mp3 */; };
+		AAC7B2822B1D1E690013BEB3 /* future.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = AAC7B27F2B1D1E690013BEB3 /* future.mp3 */; };
+		AAC7B2832B1D1E690013BEB3 /* digital.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = AAC7B2802B1D1E690013BEB3 /* digital.mp3 */; };
+		AAC7B2862B1D3E870013BEB3 /* SessionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAC7B2852B1D3E870013BEB3 /* SessionViewController.swift */; };
+		AAC7B2882B1D553D0013BEB3 /* SessionAlarmViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAC7B2872B1D553D0013BEB3 /* SessionAlarmViewController.swift */; };
+		AAC7B28A2B1D5B340013BEB3 /* silence.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = AAC7B2892B1D5B340013BEB3 /* silence.mp3 */; };
 		AADCB5CA2B0C230600F0AA3C /* Alarm.swift in Sources */ = {isa = PBXBuildFile; fileRef = AADCB5C92B0C230600F0AA3C /* Alarm.swift */; };
 		AADCB5CE2B0C26B500F0AA3C /* UserDefaultsKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = AADCB5CD2B0C26B500F0AA3C /* UserDefaultsKeys.swift */; };
 		AADCB5D02B0C338C00F0AA3C /* RootTabBarControllerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AADCB5CF2B0C338C00F0AA3C /* RootTabBarControllerViewController.swift */; };
@@ -78,17 +84,23 @@
 		AA2372B32B17B5E30009BFA9 /* SleepGoalSettingsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SleepGoalSettingsTableViewController.swift; sourceTree = "<group>"; };
 		AA2372B52B17B5FA0009BFA9 /* ReminderSettingsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderSettingsTableViewController.swift; sourceTree = "<group>"; };
 		AA2372B72B17B60F0009BFA9 /* SecurityPasscodeSettingsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecurityPasscodeSettingsTableViewController.swift; sourceTree = "<group>"; };
-		AA2372B92B17B6230009BFA9 /* CalendarSettingsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarSettingsTableViewController.swift; sourceTree = "<group>"; };
 		AA2372BB2B17B6410009BFA9 /* ExtraSecurityStepsSettingsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtraSecurityStepsSettingsTableViewController.swift; sourceTree = "<group>"; };
 		AA567E162B16501A003C8BD0 /* AnalyticsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsTableViewController.swift; sourceTree = "<group>"; };
 		AA567E182B1688FE003C8BD0 /* AnalyticsNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsNavigationController.swift; sourceTree = "<group>"; };
-		AA6BCA592B150C450055D2B9 /* RepeatSettingsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepeatSettingsTableViewController.swift; sourceTree = "<group>"; };
+		AA644B1D2B1CE9C1006F3C79 /* WelcomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeViewController.swift; sourceTree = "<group>"; };
+		AA644B1F2B1CF2F5006F3C79 /* SleepQualityChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SleepQualityChart.swift; sourceTree = "<group>"; };
 		AA6BCA5B2B1515960055D2B9 /* SoundSettingsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundSettingsTableViewController.swift; sourceTree = "<group>"; };
 		AA6BCA5D2B151EA30055D2B9 /* NotesTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesTableViewController.swift; sourceTree = "<group>"; };
 		AA6BCA612B15247C0055D2B9 /* Note.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Note.swift; sourceTree = "<group>"; };
 		AA8C10DD2B1911CB00B967EF /* PasscodeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasscodeViewController.swift; sourceTree = "<group>"; };
 		AA8C10E02B19121000B967EF /* Passcode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Passcode.swift; sourceTree = "<group>"; };
-		AADCB5C72B0C204400F0AA3C /* AlarmsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmsTableViewController.swift; sourceTree = "<group>"; };
+		AAC7B27A2B1D0B080013BEB3 /* AlarmNotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmNotificationManager.swift; sourceTree = "<group>"; };
+		AAC7B27E2B1D1E690013BEB3 /* analog.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = analog.mp3; sourceTree = "<group>"; };
+		AAC7B27F2B1D1E690013BEB3 /* future.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = future.mp3; sourceTree = "<group>"; };
+		AAC7B2802B1D1E690013BEB3 /* digital.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = digital.mp3; sourceTree = "<group>"; };
+		AAC7B2852B1D3E870013BEB3 /* SessionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionViewController.swift; sourceTree = "<group>"; };
+		AAC7B2872B1D553D0013BEB3 /* SessionAlarmViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionAlarmViewController.swift; sourceTree = "<group>"; };
+		AAC7B2892B1D5B340013BEB3 /* silence.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = silence.mp3; sourceTree = "<group>"; };
 		AADCB5C92B0C230600F0AA3C /* Alarm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Alarm.swift; path = SecureSnooze/DataTypes/Alarm.swift; sourceTree = SOURCE_ROOT; };
 		AADCB5CD2B0C26B500F0AA3C /* UserDefaultsKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = UserDefaultsKeys.swift; path = SecureSnooze/DataTypes/UserDefaultsKeys.swift; sourceTree = SOURCE_ROOT; };
 		AADCB5CF2B0C338C00F0AA3C /* RootTabBarControllerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootTabBarControllerViewController.swift; sourceTree = "<group>"; };
@@ -143,6 +155,8 @@
 		AA0D01C02B0BFE5500986C6B /* SecureSnooze */ = {
 			isa = PBXGroup;
 			children = (
+				AAC7B27D2B1D1E520013BEB3 /* Audio */,
+				AAC7B27C2B1D0FDB0013BEB3 /* Managers */,
 				AA6BCA632B1539E00055D2B9 /* DataTypes */,
 				AA163BA42B0C1D58001B2EC1 /* ViewControllers */,
 				AA163BA32B0C1D45001B2EC1 /* Delegates */,
@@ -183,6 +197,8 @@
 		AA163BA42B0C1D58001B2EC1 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				AAC7B2842B1D3E750013BEB3 /* Session */,
+				AA644B1C2B1CE9AE006F3C79 /* Welcome */,
 				AA8C10DF2B1911D500B967EF /* Passcode */,
 				AA2372AD2B17B40C0009BFA9 /* Settings */,
 				AA567E152B165006003C8BD0 /* Analytics */,
@@ -220,7 +236,6 @@
 				AA2372B32B17B5E30009BFA9 /* SleepGoalSettingsTableViewController.swift */,
 				AA2372B52B17B5FA0009BFA9 /* ReminderSettingsTableViewController.swift */,
 				AA2372B72B17B60F0009BFA9 /* SecurityPasscodeSettingsTableViewController.swift */,
-				AA2372B92B17B6230009BFA9 /* CalendarSettingsTableViewController.swift */,
 				AA2372BB2B17B6410009BFA9 /* ExtraSecurityStepsSettingsTableViewController.swift */,
 			);
 			path = SettingsChildControllers;
@@ -234,12 +249,18 @@
 			path = Analytics;
 			sourceTree = "<group>";
 		};
+		AA644B1C2B1CE9AE006F3C79 /* Welcome */ = {
+			isa = PBXGroup;
+			children = (
+				AA644B1D2B1CE9C1006F3C79 /* WelcomeViewController.swift */,
+			);
+			path = Welcome;
+			sourceTree = "<group>";
+		};
 		AA6BCA5F2B151EBC0055D2B9 /* Alarm */ = {
 			isa = PBXGroup;
 			children = (
-				AADCB5C72B0C204400F0AA3C /* AlarmsTableViewController.swift */,
 				AADCB5D12B0C3C2800F0AA3C /* AlarmSettingsTableViewController.swift */,
-				AA6BCA592B150C450055D2B9 /* RepeatSettingsTableViewController.swift */,
 				AA6BCA5B2B1515960055D2B9 /* SoundSettingsTableViewController.swift */,
 			);
 			path = Alarm;
@@ -261,6 +282,7 @@
 				AA6BCA612B15247C0055D2B9 /* Note.swift */,
 				AA2372B02B17B4590009BFA9 /* Settings.swift */,
 				AA8C10E02B19121000B967EF /* Passcode.swift */,
+				AA644B1F2B1CF2F5006F3C79 /* SleepQualityChart.swift */,
 			);
 			path = DataTypes;
 			sourceTree = "<group>";
@@ -271,6 +293,34 @@
 				AA8C10DD2B1911CB00B967EF /* PasscodeViewController.swift */,
 			);
 			path = Passcode;
+			sourceTree = "<group>";
+		};
+		AAC7B27C2B1D0FDB0013BEB3 /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+				AAC7B27A2B1D0B080013BEB3 /* AlarmNotificationManager.swift */,
+			);
+			path = Managers;
+			sourceTree = "<group>";
+		};
+		AAC7B27D2B1D1E520013BEB3 /* Audio */ = {
+			isa = PBXGroup;
+			children = (
+				AAC7B2892B1D5B340013BEB3 /* silence.mp3 */,
+				AAC7B27E2B1D1E690013BEB3 /* analog.mp3 */,
+				AAC7B2802B1D1E690013BEB3 /* digital.mp3 */,
+				AAC7B27F2B1D1E690013BEB3 /* future.mp3 */,
+			);
+			path = Audio;
+			sourceTree = "<group>";
+		};
+		AAC7B2842B1D3E750013BEB3 /* Session */ = {
+			isa = PBXGroup;
+			children = (
+				AAC7B2852B1D3E870013BEB3 /* SessionViewController.swift */,
+				AAC7B2872B1D553D0013BEB3 /* SessionAlarmViewController.swift */,
+			);
+			path = Session;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -377,9 +427,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AAC7B2822B1D1E690013BEB3 /* future.mp3 in Resources */,
 				AA0D01CE2B0BFE5600986C6B /* LaunchScreen.storyboard in Resources */,
+				AAC7B28A2B1D5B340013BEB3 /* silence.mp3 in Resources */,
 				AA0D01CB2B0BFE5600986C6B /* Assets.xcassets in Resources */,
+				AAC7B2812B1D1E690013BEB3 /* analog.mp3 in Resources */,
 				AA0D01C92B0BFE5500986C6B /* Main.storyboard in Resources */,
+				AAC7B2832B1D1E690013BEB3 /* digital.mp3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -407,15 +461,17 @@
 				AA567E172B16501A003C8BD0 /* AnalyticsTableViewController.swift in Sources */,
 				AA0D01C22B0BFE5500986C6B /* AppDelegate.swift in Sources */,
 				AA2372B62B17B5FA0009BFA9 /* ReminderSettingsTableViewController.swift in Sources */,
-				AA6BCA5A2B150C450055D2B9 /* RepeatSettingsTableViewController.swift in Sources */,
 				AADCB5D22B0C3C2800F0AA3C /* AlarmSettingsTableViewController.swift in Sources */,
 				AA163BA92B0C1DA0001B2EC1 /* SettingsNavigationController.swift in Sources */,
 				AA2372B42B17B5E30009BFA9 /* SleepGoalSettingsTableViewController.swift in Sources */,
 				AA163BA72B0C1D94001B2EC1 /* NotesNavigationController.swift in Sources */,
+				AAC7B2882B1D553D0013BEB3 /* SessionAlarmViewController.swift in Sources */,
 				AA2372B12B17B4590009BFA9 /* Settings.swift in Sources */,
+				AA644B202B1CF2F5006F3C79 /* SleepQualityChart.swift in Sources */,
 				AA2372AF2B17B4220009BFA9 /* SettingsTableViewController.swift in Sources */,
 				AA2372BC2B17B6410009BFA9 /* ExtraSecurityStepsSettingsTableViewController.swift in Sources */,
 				AADCB5CE2B0C26B500F0AA3C /* UserDefaultsKeys.swift in Sources */,
+				AAC7B27B2B1D0B080013BEB3 /* AlarmNotificationManager.swift in Sources */,
 				AA6BCA5C2B1515960055D2B9 /* SoundSettingsTableViewController.swift in Sources */,
 				AA163BA02B0C1D21001B2EC1 /* AlarmsNavigationController.swift in Sources */,
 				AA6BCA5E2B151EA30055D2B9 /* NotesTableViewController.swift in Sources */,
@@ -423,11 +479,11 @@
 				AA8C10E12B19121000B967EF /* Passcode.swift in Sources */,
 				AA8C10DE2B1911CB00B967EF /* PasscodeViewController.swift in Sources */,
 				AA0D01C42B0BFE5500986C6B /* SceneDelegate.swift in Sources */,
+				AA644B1E2B1CE9C1006F3C79 /* WelcomeViewController.swift in Sources */,
+				AAC7B2862B1D3E870013BEB3 /* SessionViewController.swift in Sources */,
 				AA2372B82B17B60F0009BFA9 /* SecurityPasscodeSettingsTableViewController.swift in Sources */,
 				AADCB5D02B0C338C00F0AA3C /* RootTabBarControllerViewController.swift in Sources */,
-				AA2372BA2B17B6230009BFA9 /* CalendarSettingsTableViewController.swift in Sources */,
 				AA6BCA622B15247C0055D2B9 /* Note.swift in Sources */,
-				AADCB5C82B0C204400F0AA3C /* AlarmsTableViewController.swift in Sources */,
 				AADCB5CA2B0C230600F0AA3C /* Alarm.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

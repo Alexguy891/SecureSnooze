@@ -8,9 +8,13 @@
 import UIKit
 
 @main
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
+    var alarmNotificationManager: AlarmNotificationManager = AlarmNotificationManager()
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+        alarmNotificationManager.loadAlarmNotificationManager()
+        alarmNotificationManager.requestNotificationPermission()
+        UNUserNotificationCenter.current().delegate = self
         return true
     }
 
@@ -28,6 +32,37 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Use this method to release any resources that were specific to the discarded scenes, as they will not return.
     }
 
+    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        print("userNotificationCenter(center: willPresent: withCompletionHandler:")
+        completionHandler([.badge, .banner, .sound])
+    }
+    
+    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+        print("userNotificationCenter(center: didReceive: withCompletionHandler:")
+        let actionIdentifier = response.actionIdentifier
+        
+        switch actionIdentifier {
+        case UNNotificationDefaultActionIdentifier:
+            // User tapped on the notification body
+            // Handle as needed
+            break
 
+        case "snoozeAction":
+            // User clicked on the "Snooze" action
+            alarmNotificationManager.snoozeAlarm()
+            break
+
+        case "stopAction":
+            // User clicked on the "Stop" action
+            alarmNotificationManager.stopAlarm()
+            break
+
+        default:
+            // Handle other actions if needed
+            break
+        }
+
+        completionHandler()
+    }
 }
 

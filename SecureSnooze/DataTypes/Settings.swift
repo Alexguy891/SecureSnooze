@@ -11,22 +11,20 @@ class Settings: Codable {
     var reminderBeforeBedtimeIntervalMinutes: Int = 15
     var requirePasscodeToChangeSleepGoal: Bool = false
     var requirePasscodeToChangeReminderSettings: Bool = false
-    var requirePasscodeToChangeAlarms: Bool = false
-    var addAlarmsToCalender: Bool = false
+    var requirePasscodeToChangeAlarm: Bool = false
     
     init () { }
     
-    init(sleepGoalHours: Int, reminderBeforeBedtimeIntervalMinutes: Int, requirePasscodeToChangeSleepGoal: Bool, requirePasscodeToChangeReminderSettings: Bool, requirePasscodeToChangeAlarms: Bool, addAlarmsToCalendar: Bool) {
+    init(sleepGoalHours: Int, reminderBeforeBedtimeIntervalMinutes: Int, requirePasscodeToChangeSleepGoal: Bool, requirePasscodeToChangeReminderSettings: Bool, requirePasscodeToChangeAlarm: Bool) {
         self.sleepGoalHours = sleepGoalHours
         self.reminderBeforeBedtimeIntervalMinutes = reminderBeforeBedtimeIntervalMinutes
         self.requirePasscodeToChangeSleepGoal = requirePasscodeToChangeSleepGoal
         self.requirePasscodeToChangeReminderSettings = requirePasscodeToChangeReminderSettings
-        self.requirePasscodeToChangeAlarms = requirePasscodeToChangeAlarms
-        self.addAlarmsToCalender = addAlarmsToCalendar
+        self.requirePasscodeToChangeAlarm = requirePasscodeToChangeAlarm
     }
     
     func saveSettings() {
-        print("saveSettings()")
+        print("Settings saveSettings()")
         do {
             let encoder = JSONEncoder()
             let encodedData = try encoder.encode(self)
@@ -45,8 +43,7 @@ class Settings: Codable {
                 reminderBeforeBedtimeIntervalMinutes = decodedSettings.reminderBeforeBedtimeIntervalMinutes
                 requirePasscodeToChangeSleepGoal = decodedSettings.requirePasscodeToChangeSleepGoal
                 requirePasscodeToChangeReminderSettings = decodedSettings.requirePasscodeToChangeReminderSettings
-                requirePasscodeToChangeAlarms = decodedSettings.requirePasscodeToChangeAlarms
-                addAlarmsToCalender = decodedSettings.requirePasscodeToChangeAlarms
+                requirePasscodeToChangeAlarm = decodedSettings.requirePasscodeToChangeAlarm
             } catch {
                 print("Error decoding settings array: \(error)")
             }
@@ -57,8 +54,7 @@ class Settings: Codable {
             reminderBeforeBedtimeIntervalMinutes = 15
             requirePasscodeToChangeSleepGoal = false
             requirePasscodeToChangeReminderSettings = false
-            requirePasscodeToChangeAlarms = false
-            addAlarmsToCalender = false
+            requirePasscodeToChangeAlarm = false
         }
     }
 }

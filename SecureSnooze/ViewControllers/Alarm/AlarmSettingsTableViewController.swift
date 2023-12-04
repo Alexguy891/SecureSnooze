@@ -9,8 +9,6 @@ import UIKit
 
 class AlarmSettingsTableViewController: UITableViewController {
     // all options that change or are interactable
-    @IBOutlet weak var alarmRepeatsLabel: UILabel!
-    @IBOutlet weak var alarmNameLabel: UITextField!
     @IBOutlet weak var alarmSoundLabel: UILabel!
     @IBOutlet weak var alarmSnoozeSwitch: UISwitch!
     @IBOutlet weak var alarmSnoozeLimitSwitch: UISwitch!
@@ -23,15 +21,9 @@ class AlarmSettingsTableViewController: UITableViewController {
     @IBOutlet weak var alarmDatePicker: UIDatePicker!
     
     // selected alarm
-    var alarms: Alarms = Alarms()
-    var selectedAlarmIndex: Int = 0
     var alarm: Alarm = Alarm()
+    var alarmNotificationManager = AlarmNotificationManager()
     
-    // update alarm based on setting change
-    @IBAction func alarmNameChanged(_ sender: Any) {
-        alarm.name = alarmNameLabel.text ?? ""
-        print(alarm.name)
-    }
     @IBAction func alarmSnoozeSwitchChanged(_ sender: Any) {
         alarm.canSnooze = alarmSnoozeSwitch.isOn
         toggleSnoozeOptions()
@@ -60,20 +52,15 @@ class AlarmSettingsTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        let startButton = UIBarButtonItem(title: "Start", style: .plain, target: self, action: #selector(startButtonTapped))
+        navigationItem.rightBarButtonItem = startButton
     }
     
     override func viewWillAppear(_ animated: Bool) {
         // for debugging
         print("AlarmSettingsTableViewController viewWillAppear()")
         
-        // getting the sent alarm from the table
-        if selectedAlarmIndex != -1 {
-            alarm = alarms.alarms[selectedAlarmIndex]
-        }
-        
         // applying all views to hold current alarm settings
-        alarmRepeatsLabel.text = updateRepeatLabel()
-        alarmNameLabel.text = alarm.name
         alarmSoundLabel.text = alarm.sound.getSoundName()
         alarmSnoozeSwitch.isOn = alarm.canSnooze
         alarmSnoozeLimitSwitch.isOn = alarm.limitSnoozes
@@ -87,28 +74,15 @@ class AlarmSettingsTableViewController: UITableViewController {
         
         // enable snooze options depending on snooze toggle
         toggleSnoozeOptions()
+        alarmNotificationManager.loadAlarmNotificationManager()
+        alarmNotificationManager.alarm.loadAlarm()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         // for debugging
         print("AlarmSettingsTableViewController viewWillDisappear()")
-        
-        if let navigationController = self.navigationController {
-            print("navigation controller set")
-            
-            print("Navigation stack: \(navigationController.viewControllers)")
-            
-            if navigationController.viewControllers.last is AlarmsTableViewController {
-                print("previous view controller is AlarmsTableViewController")
-                    if selectedAlarmIndex != -1 {
-                        print("modifying alarms")
-                        alarms.alarms[selectedAlarmIndex] = alarm
-                    } else {
-                        print("appending alarms")
-                        alarms.alarms.append(alarm)
-                    }
-            }
-        }
+        alarm.saveAlarm()
+        alarmNotificationManager.saveAlarmNotificationManager()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -120,14 +94,9 @@ class AlarmSettingsTableViewController: UITableViewController {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if let destinationViewController = segue.destination as? AlarmsTableViewController {
-            print("passing alarms array")
-            destinationViewController.alarms = alarms
-        } else if let destinationViewController = segue.destination as? RepeatSettingsTableViewController {
-            print("passing alarm")
+        if let destinationViewController = segue.destination as? SoundSettingsTableViewController {
             destinationViewController.alarm = alarm
-        } else if let destinationViewController = segue.destination as? SoundSettingsTableViewController {
-            print("passing alarm")
+        } else if let destinationViewController = segue.destination as? SessionViewController {
             destinationViewController.alarm = alarm
         }
     }
@@ -142,43 +111,15 @@ class AlarmSettingsTableViewController: UITableViewController {
         }
     }
     
-    // returns appropriate string for selected repeated options
-    func updateRepeatLabel() -> String {
-        let weekdays: [DaysOfTheWeek] = [.friday, .monday, .thursday, .tuesday, .wednesday]
-        let weekends: [DaysOfTheWeek] = [.saturday, .sunday]
-        
-        // sorts selected repeats
-        let sortedDaysToRepeat: [DaysOfTheWeek] = alarm.daysToRepeat.sorted { $0.rawValue < $1.rawValue }
-        
-        // returns string dependnent on length of selected repeats
-        switch sortedDaysToRepeat.count {
-        case 0:
-            return "Never"
-        case 1:
-            return sortedDaysToRepeat.first?.rawValue ?? "Monday"
-        case 2:
-            if sortedDaysToRepeat.elementsEqual(weekends) {
-                return "Weekends"
-            }
-            
-            return "Custom"
-        case 5:
-            if sortedDaysToRepeat.elementsEqual(weekdays) {
-                return "Weekdays"
-            }
-            
-            return "Custom"
-        case 7:
-            return "Everyday"
-        default:
-            return "Custom"
-        }
-    }
-    
     func toggleSnoozeOptions() {
         alarmSnoozeLimitSwitch.isEnabled = alarm.canSnooze
         alarmSnoozeAttemptsStepper.isEnabled = (alarm.canSnooze && alarm.limitSnoozes)
         alarmSnoozeLengthStepper.isEnabled = alarm.canSnooze
         alarmSnoozePasscodeSwitch.isEnabled = alarm.canSnooze
+    }
+    
+    @objc func startButtonTapped() {
+        alarmNotificationManager.scheduleAlarm(alarm)
+        performSegue(withIdentifier: "startButtonTapped", sender: self)
     }
 }

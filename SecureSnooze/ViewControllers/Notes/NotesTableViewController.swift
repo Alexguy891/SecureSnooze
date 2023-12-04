@@ -24,7 +24,6 @@ class NotesTableViewController: UITableViewController {
         addNewNote(note)
         date = notesDatePicker.date
         getNote()
-        print("Date is \(date)")
         updateDateTimePickersToDate()
         updateNoteSettings()
         tableView.reloadData()
@@ -86,11 +85,8 @@ class NotesTableViewController: UITableViewController {
         }) {
             return newNote
         } else {
-            print("newNote = Note()")
             let newNote = Note()
-            print("newNote date is \(date)")
             newNote.date = date
-            print("newNote.date = \(date)")
             newNote.timeAsleep = Calendar.current.date(byAdding: .hour, value: -8, to: date) ?? Date()
             newNote.timeAwake = date
             return newNote
@@ -99,14 +95,10 @@ class NotesTableViewController: UITableViewController {
     
     func updateDateTimePickersToDate() {
         let previousDay = Calendar.current.date(byAdding: .day, value: -1, to: date) ?? Date()
-        print("previousDay = \(previousDay)")
-        print(note.timeAwake)
-        print(note.timeAsleep)
         notesTimeAwakeDatePicker.date = note.timeAwake
         notesTimeAsleepDatePicker.date = note.timeAsleep
         notesTimeAsleepDatePicker.minimumDate = Calendar.current.startOfDay(for: previousDay)
         notesTimeAwakeDatePicker.maximumDate = Calendar.current.date(bySettingHour: 23, minute: 59, second: 59, of: date)
-        print("notesTimeAwakeDatePicker.maximumDate = \(String(describing: notesTimeAwakeDatePicker.maximumDate))")
         notesTimeAsleepDatePicker.maximumDate = notesTimeAwakeDatePicker.date
         notesTimeAwakeDatePicker.minimumDate = notesTimeAsleepDatePicker.date
     }
@@ -132,7 +124,6 @@ class NotesTableViewController: UITableViewController {
                 }
             }
             
-            print("newNote appended to notes")
             notes.notes.append(newNote)
         }
         
@@ -142,9 +133,6 @@ class NotesTableViewController: UITableViewController {
     func getNote() {
         print("NotesTableViewController getNote()")
         note = getNoteForDate(dateToFind: date)
-        print("Note date = \(note.date)")
-        print("Note date = \(note.timeAwake)")
-        print("Note date = \(note.timeAsleep)")
     }
     
     func updateNoteSettings() {
