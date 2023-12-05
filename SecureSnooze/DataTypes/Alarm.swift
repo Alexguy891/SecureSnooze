@@ -62,6 +62,7 @@ class Alarm: Codable {
     }
     
     func loadAlarm() {
+        print("loadAlarm()")
         // cast to array of alarm and return
         if let alarmData = UserDefaults.standard.data(forKey: UserDefaultsKeys.alarm.rawValue) {
             do {
@@ -79,12 +80,10 @@ class Alarm: Codable {
                 print("Error decoding alarm: \(error)")
             }
         }
-        
-        // print failure and return empty array if cast fails
-        print("Failed to load alarm from UserDefaults")
     }
     
     func saveAlarm() {
+        print("saveAlarm()")
         do {
             let encoder = JSONEncoder()
             let encodedData = try encoder.encode(self)

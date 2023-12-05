@@ -77,6 +77,7 @@ class PasscodeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        //isModalInPresentation = true
     }
     
     override func viewWillAppear(_ animated: Bool) {

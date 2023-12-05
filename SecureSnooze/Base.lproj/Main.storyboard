@@ -244,11 +244,12 @@
                         <outlet property="alarmSoundLabel" destination="n0c-Vl-rNh" id="I7S-eo-cPL"/>
                         <segue destination="ySq-IY-foo" kind="show" identifier="soundsTapped" id="5OE-KQ-WPT"/>
                         <segue destination="21J-1V-rTe" kind="show" identifier="startButtonTapped" id="Rgq-F5-ewB"/>
+                        <segue destination="kz0-HG-9ok" kind="presentation" identifier="alarmEditTapped" id="Ev1-eL-1gn"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="UrZ-cT-usv" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-808" y="660"/>
+            <point key="canvasLocation" x="-776" y="660"/>
         </scene>
         <!--Analytics-->
         <scene sceneID="DnX-7F-PhH">
@@ -1065,7 +1066,7 @@
                                                     <rect key="frame" x="326" y="6" width="49" height="31"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <connections>
-                                                        <action selector="requirePasscodeToChangeAlarmsSwitchChanged:" destination="o8S-0Y-bj2" eventType="valueChanged" id="ycR-1I-HE7"/>
+                                                        <action selector="requirePasscodeToChangeAlarmSwitchChanged:" destination="o8S-0Y-bj2" eventType="valueChanged" id="DIC-Nb-fcc"/>
                                                     </connections>
                                                 </switch>
                                             </subviews>
@@ -1101,7 +1102,7 @@
                     <navigationItem key="navigationItem" id="R20-EI-Oxz"/>
                     <connections>
                         <outlet property="changePasscodeButton" destination="Dfw-Ib-idb" id="PKh-pK-yLg"/>
-                        <outlet property="requirePasscodeToChangeAlarmsSwitch" destination="ixc-8p-b7W" id="QHy-am-Sxd"/>
+                        <outlet property="requirePasscodeToChangeAlarmSwitch" destination="ixc-8p-b7W" id="n8a-4S-g6Y"/>
                         <outlet property="requirePasscodeToChangeRemindersSwitch" destination="GQ9-LN-564" id="gDt-GI-Tcr"/>
                         <outlet property="requirePasscodeToChangeSleepGoalSwitch" destination="FaA-Vs-kXk" id="xvO-xW-Xz1"/>
                         <segue destination="kz0-HG-9ok" kind="presentation" identifier="changePasscodeTapped" id="NN3-fX-O90"/>
@@ -1218,7 +1219,9 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
                     <connections>
+                        <outlet property="snoozeButton" destination="WDz-JS-0jk" id="DaW-vR-5ZJ"/>
                         <outlet property="timeLabel" destination="yVK-pu-XeQ" id="jSx-0R-2ND"/>
+                        <segue destination="kz0-HG-9ok" kind="presentation" identifier="snoozePasscode" id="Qjd-2f-tIf"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="M3q-Wf-U8G" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -1228,7 +1231,6 @@
         <!--Session View Controller-->
         <scene sceneID="nNY-zo-Jv1">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="vKM-3I-ryc" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <viewController id="21J-1V-rTe" customClass="SessionViewController" customModule="SecureSnooze" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="dJK-mH-yV2">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
@@ -1248,8 +1250,15 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="00:00 am" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vuv-B5-l41">
-                                <rect key="frame" x="137" y="451" width="120" height="34"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="00:00 am" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vuv-B5-l41">
+                                <rect key="frame" x="16" y="451" width="361" height="34"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="28"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="0 snoozes left" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FOK-RB-dRp">
+                                <rect key="frame" x="43" y="493" width="334" height="34"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="28"/>
                                 <nil key="textColor"/>
@@ -1263,23 +1272,25 @@
                     <connections>
                         <outlet property="alarmTimeLabel" destination="vuv-B5-l41" id="Jbw-Fm-rlp"/>
                         <outlet property="currentTimeLabel" destination="kyk-pp-eUx" id="i3A-eC-2WT"/>
+                        <outlet property="snoozeAttemptsLabel" destination="FOK-RB-dRp" id="qLQ-e8-sh5"/>
                         <segue destination="zvL-J2-q3P" kind="presentation" identifier="sessionAlarm" id="zBz-cM-4X1"/>
                     </connections>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="vKM-3I-ryc" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-1489.3129770992366" y="659.85915492957747"/>
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
         <segue reference="fTJ-kk-zjb"/>
-        <segue reference="9uI-ox-ymo"/>
+        <segue reference="Ev1-eL-1gn"/>
     </inferredMetricsTieBreakers>
     <resources>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
         <systemColor name="systemRedColor">
-            <color red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="1" green="0.23137254901960785" blue="0.18823529411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

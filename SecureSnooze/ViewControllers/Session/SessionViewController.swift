@@ -14,12 +14,14 @@ class SessionViewController: UIViewController {
     
     @IBOutlet weak var currentTimeLabel: UILabel!
     @IBOutlet weak var alarmTimeLabel: UILabel!
+    @IBOutlet weak var snoozeAttemptsLabel: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        print("SessionViewController viewWillappear()")
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "hh:mm a"
         setupTimer()
@@ -28,9 +30,18 @@ class SessionViewController: UIViewController {
         alarmNotificationManager.loadAlarmNotificationManager()
         alarmNotificationManager.alarm = alarm
         alarmNotificationManager.startSleepSession()
+        
+        if alarm.limitSnoozes {
+            snoozeAttemptsLabel.isHidden = false
+            snoozeAttemptsLabel.text = "\(alarm.snoozeTries - alarmNotificationManager.snoozeAmount) snoozes left"
+        } else {
+            snoozeAttemptsLabel.isHidden = true
+        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
+        print("SessionViewController viewWillDisappear()")
+        timer.invalidate()
         alarmNotificationManager.descheduleAlarm()
         alarmNotificationManager.stopAlarm()
     }
@@ -39,6 +50,16 @@ class SessionViewController: UIViewController {
         print("setupTimer()")
         timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateTime), userInfo: nil, repeats: true)
         RunLoop.current.add(timer, forMode: .common)
+    }
+    
+    func updateSnoozeTimeLabel() {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "hh:mm a"
+        alarmTimeLabel.text = dateFormatter.string(from: alarmNotificationManager.alarm.time)
+        
+        if alarm.limitSnoozes {
+            snoozeAttemptsLabel.text = "\(alarm.snoozeTries - alarmNotificationManager.snoozeAmount) snoozes left"
+        }
     }
     
     @objc func updateTime() {
@@ -70,6 +91,7 @@ class SessionViewController: UIViewController {
                 } else {
                     print("snooze selected")
                     self.setupTimer()
+                    self.updateSnoozeTimeLabel()
                 }
             }
         }

@@ -14,6 +14,7 @@ class AlarmNotificationManager: Codable {
     private var audioPlayer: AVAudioPlayer = AVAudioPlayer()
     var alarm: Alarm = Alarm()
     var settings: Settings = Settings()
+    var snoozeAmount = 0
     
     func requestNotificationPermission() {
         print("AlarmNotificationManager requestNotificationPermission()")
@@ -113,6 +114,7 @@ class AlarmNotificationManager: Codable {
     func snoozeAlarm() {
         print("AlarmNotificationManager snoozeAlarm()")
         stopAlarm()
+        snoozeAmount += 1
         let newAlarm = Alarm(time: alarm.time, sound: alarm.sound, canSnooze: alarm.canSnooze, limitSnoozes: alarm.limitSnoozes, snoozeTries: alarm.snoozeTries, snoozeLength: alarm.snoozeLength, enableReminder: alarm.enableReminder)
         newAlarm.time = Calendar.current.date(byAdding: .minute, value: newAlarm.snoozeLength, to: newAlarm.time) ?? Date()
         scheduleAlarm(newAlarm)

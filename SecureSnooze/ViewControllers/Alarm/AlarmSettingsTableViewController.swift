@@ -23,6 +23,8 @@ class AlarmSettingsTableViewController: UITableViewController {
     // selected alarm
     var alarm: Alarm = Alarm()
     var alarmNotificationManager = AlarmNotificationManager()
+    var settings: Settings = Settings()
+    var currentlyEditing: Bool = false
     
     @IBAction func alarmSnoozeSwitchChanged(_ sender: Any) {
         alarm.canSnooze = alarmSnoozeSwitch.isOn
@@ -54,11 +56,14 @@ class AlarmSettingsTableViewController: UITableViewController {
         super.viewDidLoad()
         let startButton = UIBarButtonItem(title: "Start", style: .plain, target: self, action: #selector(startButtonTapped))
         navigationItem.rightBarButtonItem = startButton
+        updateEditButton()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         // for debugging
         print("AlarmSettingsTableViewController viewWillAppear()")
+        
+        alarm.loadAlarm()
         
         // applying all views to hold current alarm settings
         alarmSoundLabel.text = alarm.sound.getSoundName()
@@ -76,6 +81,13 @@ class AlarmSettingsTableViewController: UITableViewController {
         toggleSnoozeOptions()
         alarmNotificationManager.loadAlarmNotificationManager()
         alarmNotificationManager.alarm.loadAlarm()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        settings.loadSettings()
+        currentlyEditing = false
+        setEditing()
+        updateEditButton()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -96,8 +108,17 @@ class AlarmSettingsTableViewController: UITableViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let destinationViewController = segue.destination as? SoundSettingsTableViewController {
             destinationViewController.alarm = alarm
+            destinationViewController.hidesBottomBarWhenPushed = true
         } else if let destinationViewController = segue.destination as? SessionViewController {
             destinationViewController.alarm = alarm
+            destinationViewController.hidesBottomBarWhenPushed = true
+        } else if let destinationViewController = segue.destination as? PasscodeViewController {
+            destinationViewController.creatingNewPasscode = false
+            destinationViewController.dismissalCallback = {
+                self.currentlyEditing = true
+                self.setEditing()
+                self.updateEditButton()
+            }
         }
     }
     
@@ -112,14 +133,42 @@ class AlarmSettingsTableViewController: UITableViewController {
     }
     
     func toggleSnoozeOptions() {
-        alarmSnoozeLimitSwitch.isEnabled = alarm.canSnooze
-        alarmSnoozeAttemptsStepper.isEnabled = (alarm.canSnooze && alarm.limitSnoozes)
-        alarmSnoozeLengthStepper.isEnabled = alarm.canSnooze
-        alarmSnoozePasscodeSwitch.isEnabled = alarm.canSnooze
+        alarmSnoozeLimitSwitch.isEnabled = alarm.canSnooze && currentlyEditing
+        alarmSnoozeAttemptsStepper.isEnabled = (alarm.canSnooze && alarm.limitSnoozes && currentlyEditing)
+        alarmSnoozeLengthStepper.isEnabled = alarm.canSnooze && currentlyEditing
+        alarmSnoozePasscodeSwitch.isEnabled = alarm.canSnooze && currentlyEditing
+    }
+    
+    func setEditing() {
+        alarmSoundLabel.isEnabled = currentlyEditing
+        alarmSnoozeSwitch.isEnabled = currentlyEditing
+        toggleSnoozeOptions()
+        alarmReminderSwitch.isEnabled = currentlyEditing
+        alarmDatePicker.isEnabled = currentlyEditing
+    }
+    
+    func updateEditButton() {
+        let newEditButton = UIBarButtonItem(title: currentlyEditing ? "Done" : "Edit", style: .plain, target: self, action: #selector(editButtonTapped))
+        navigationItem.leftBarButtonItem = newEditButton
     }
     
     @objc func startButtonTapped() {
         alarmNotificationManager.scheduleAlarm(alarm)
         performSegue(withIdentifier: "startButtonTapped", sender: self)
+    }
+    
+    @objc func editButtonTapped() {
+        if settings.requirePasscodeToChangeAlarm && !currentlyEditing {
+            performSegue(withIdentifier: "alarmEditTapped", sender: self)
+        } else if !settings.requirePasscodeToChangeAlarm && !currentlyEditing {
+            currentlyEditing = true
+            setEditing()
+            updateEditButton()
+        }
+        else {
+            currentlyEditing = false
+            setEditing()
+            updateEditButton()
+        }
     }
 }

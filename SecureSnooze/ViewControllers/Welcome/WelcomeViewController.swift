@@ -16,6 +16,7 @@ class WelcomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         isModalInPresentation = true
+        hidesBottomBarWhenPushed = true
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

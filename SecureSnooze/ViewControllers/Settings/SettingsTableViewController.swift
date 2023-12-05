@@ -65,10 +65,13 @@ class SettingsTableViewController: UITableViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let destinationViewController = segue.destination as? SleepGoalSettingsTableViewController {
             destinationViewController.settings = settings
+            destinationViewController.hidesBottomBarWhenPushed = true
         } else if let destinationViewController = segue.destination as? ReminderSettingsTableViewController {
             destinationViewController.settings = settings
+            destinationViewController.hidesBottomBarWhenPushed = true
         } else if let destinationViewController = segue.destination as? SecurityPasscodeSettingsTableViewController {
             destinationViewController.settings = settings
+            destinationViewController.hidesBottomBarWhenPushed = true
         } else if let destinationViewController = segue.destination as? PasscodeViewController {
             if segue.identifier == "sleepGoalPasscode" {
                 destinationViewController.dismissalCallback = {
