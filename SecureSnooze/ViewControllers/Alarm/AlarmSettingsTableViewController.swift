@@ -119,9 +119,7 @@ class AlarmSettingsTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if let selectedCell = tableView.cellForRow(at: indexPath) {
-            if selectedCell.reuseIdentifier == "repeatSelection" {
-                performSegue(withIdentifier: "repeatsTapped", sender: selectedCell)
-            } else if selectedCell.reuseIdentifier == "selectSound" {
+            if selectedCell.reuseIdentifier == "selectSound" {
                 performSegue(withIdentifier: "soundsTapped", sender: selectedCell)
             }
         }
@@ -135,7 +133,6 @@ class AlarmSettingsTableViewController: UITableViewController {
     }
     
     func setEditing() {
-        alarmSoundLabel.isEnabled = currentlyEditing
         alarmSnoozeSwitch.isEnabled = currentlyEditing
         toggleSnoozeOptions()
         alarmDatePicker.isEnabled = currentlyEditing

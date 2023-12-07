@@ -177,6 +177,7 @@ class AlarmNotificationManager: Codable {
     }
     
     func playAlarm() {
+        alarm.loadAlarm()
         stopAlarm()
         print("AlarmNotificationManager playAlarm()")
         
@@ -204,6 +205,7 @@ class AlarmNotificationManager: Codable {
     }
     
     func snoozeAlarm() {
+        alarm.loadAlarm()
         print("AlarmNotificationManager snoozeAlarm()")
         stopAlarm()
         snoozeAmount += 1

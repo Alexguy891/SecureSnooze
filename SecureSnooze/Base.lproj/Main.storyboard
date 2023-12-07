@@ -427,7 +427,7 @@
         <scene sceneID="Xqd-K9-fzD">
             <objects>
                 <navigationController title="Settings" id="KWI-uh-KJf" customClass="SettingsNavigationController" customModule="SecureSnooze" customModuleProvider="target" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Item" id="kGQ-RN-GZg"/>
+                    <tabBarItem key="tabBarItem" title="Settings" image="gear" catalog="system" selectedImage="gear" id="kGQ-RN-GZg"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="CIU-eK-Did">
                         <rect key="frame" x="0.0" y="59" width="393" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -600,7 +600,7 @@
         <scene sceneID="zTv-sy-MS9">
             <objects>
                 <navigationController title="Alarms" automaticallyAdjustsScrollViewInsets="NO" id="p4H-p2-UJt" customClass="AlarmsNavigationController" customModule="SecureSnooze" customModuleProvider="target" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Item" id="I7G-ue-HZh"/>
+                    <tabBarItem key="tabBarItem" title="Alarm" image="clock.fill" catalog="system" selectedImage="clock.fill" id="I7G-ue-HZh"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="ZgZ-UC-s9C">
                         <rect key="frame" x="0.0" y="59" width="393" height="44"/>
@@ -669,15 +669,15 @@
                                             </subviews>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="qOP-Pq-OVm">
-                                        <rect key="frame" x="0.0" y="246" width="393" height="43.666667938232422"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="77" id="qOP-Pq-OVm">
+                                        <rect key="frame" x="0.0" y="246" width="393" height="77"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="qOP-Pq-OVm" id="24g-hE-QqA">
-                                            <rect key="frame" x="0.0" y="0.0" width="393" height="43.666667938232422"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="393" height="77"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="wXm-d2-iEW">
-                                                    <rect key="frame" x="20" y="6" width="353" height="32"/>
+                                                    <rect key="frame" x="20" y="29" width="353" height="32"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <segments>
                                                         <segment title="Very bad"/>
@@ -690,11 +690,18 @@
                                                         <action selector="notesMoodSegmentedControlChanged:" destination="dsn-dS-mc9" eventType="valueChanged" id="FZg-Ix-sdk"/>
                                                     </connections>
                                                 </segmentedControl>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Morning mood" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PQ2-on-q7N">
+                                                    <rect key="frame" x="20" y="0.0" width="111" height="21"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                             </subviews>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="iSH-t2-Fie">
-                                        <rect key="frame" x="0.0" y="289.66666793823242" width="393" height="43.666667938232422"/>
+                                        <rect key="frame" x="0.0" y="323" width="393" height="43.666667938232422"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="iSH-t2-Fie" id="9we-JV-uyq">
                                             <rect key="frame" x="0.0" y="0.0" width="393" height="43.666667938232422"/>
@@ -718,7 +725,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="arZ-3u-8s2">
-                                        <rect key="frame" x="0.0" y="333.33333587646484" width="393" height="43.666667938232422"/>
+                                        <rect key="frame" x="0.0" y="366.66666793823242" width="393" height="43.666667938232422"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="arZ-3u-8s2" id="PgD-7O-mC3">
                                             <rect key="frame" x="0.0" y="0.0" width="393" height="43.666667938232422"/>
@@ -765,11 +772,11 @@
             </objects>
             <point key="canvasLocation" x="20.610687022900763" y="686.61971830985919"/>
         </scene>
-        <!--Item-->
+        <!--Notes-->
         <scene sceneID="QfD-Ph-h7M">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="nFK-An-8pp" customClass="NotesNavigationController" customModule="SecureSnooze" customModuleProvider="target" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Item" id="2Dr-QO-Pyd"/>
+                <navigationController title="Notes" automaticallyAdjustsScrollViewInsets="NO" id="nFK-An-8pp" customClass="NotesNavigationController" customModule="SecureSnooze" customModuleProvider="target" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Notes" image="pencil" catalog="system" selectedImage="pencil" id="2Dr-QO-Pyd"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="bi0-38-l0j">
                         <rect key="frame" x="0.0" y="59" width="393" height="44"/>
@@ -788,7 +795,7 @@
         <scene sceneID="4aA-C4-Eqx">
             <objects>
                 <navigationController title="Analytics" automaticallyAdjustsScrollViewInsets="NO" id="nV3-mo-HnB" customClass="AnalyticsNavigationController" customModule="SecureSnooze" customModuleProvider="target" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Item" id="1C4-xf-h4Y"/>
+                    <tabBarItem key="tabBarItem" title="Stats" image="person.fill" catalog="system" selectedImage="person.fill" id="1C4-xf-h4Y"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="7yU-uT-t4r">
                         <rect key="frame" x="0.0" y="59" width="393" height="44"/>
@@ -1311,11 +1318,15 @@
         <segue reference="Ev1-eL-1gn"/>
     </inferredMetricsTieBreakers>
     <resources>
+        <image name="clock.fill" catalog="system" width="128" height="123"/>
+        <image name="gear" catalog="system" width="128" height="122"/>
+        <image name="pencil" catalog="system" width="128" height="113"/>
+        <image name="person.fill" catalog="system" width="128" height="120"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
         <systemColor name="systemRedColor">
-            <color red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="1" green="0.23137254901960785" blue="0.18823529411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

@@ -143,7 +143,10 @@ class NotesTableViewController: UITableViewController {
     }
     
     @objc func clearButtonTapped() {
-        notes.notes.removeAll(where: {$0.date == date})
+        print(notes.notes.count)
+        notes.notes.removeAll(where: {
+            Calendar.current.dateComponents([.month, .day, .year], from: $0.date) == Calendar.current.dateComponents([.month, .day, .year], from: date)})
+        print(notes.notes.count)
         note = Note()
         note.date = date
         note.timeAsleep = Calendar.current.date(byAdding: .hour, value: -8, to: date) ?? Date()

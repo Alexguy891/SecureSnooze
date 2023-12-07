@@ -21,6 +21,7 @@ class SoundSettingsTableViewController: UITableViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         alarm.sound = selectedSound
+        alarm.saveAlarm()
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
