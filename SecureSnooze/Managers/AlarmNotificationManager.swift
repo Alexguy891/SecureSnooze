@@ -8,6 +8,8 @@
 import Foundation
 import UserNotifications
 import AVFoundation
+import EventKit
+import EventKitUI
 
 class AlarmNotificationManager: Codable {
     var notificationPermission = false
@@ -15,6 +17,7 @@ class AlarmNotificationManager: Codable {
     var alarm: Alarm = Alarm()
     var settings: Settings = Settings()
     var snoozeAmount = 0
+    let eventStore = EKEventStore()
     
     func requestNotificationPermission() {
         print("AlarmNotificationManager requestNotificationPermission()")
@@ -55,11 +58,65 @@ class AlarmNotificationManager: Codable {
                 print("Reminder scheduled successfully for Time: \(components), current time is: \(calendar.dateComponents([.hour, .minute], from: Date()))")
             }
         }
+        
+        addReminderToCalendar(bedtime: bedtime)
     }
     
     func descheduleReminder() {
+        print("descheduleReminder()")
         let center = UNUserNotificationCenter.current()
         center.removePendingNotificationRequests(withIdentifiers: ["bedtimeReminder"])
+        removeRemindersFromCalendar()
+    }
+    
+    func addReminderToCalendar(bedtime: Date) {
+        print("addReminderToCalendar()")
+        settings.loadSettings()
+        eventStore.requestFullAccessToEvents(completion: { success, error in
+            print("Asking for permission")
+            if success, error == nil {
+                print("Permission success")
+                DispatchQueue.main.async {
+                    let components = Calendar.current.dateComponents([.hour, .minute], from: bedtime)
+                    
+                    let reminderEvent = EKEvent (eventStore: self.eventStore)
+                    reminderEvent.title = "Bedtime"
+                    let startDate = Calendar.current.date(bySetting: .hour, value: components.hour ?? 0, of: Date())
+                    reminderEvent.startDate = Calendar.current.date(bySetting: .minute, value: components.minute ?? 0, of: startDate ?? Date())
+                    reminderEvent.endDate = Calendar.current.date(byAdding: .hour, value: self.settings.sleepGoalHours, to: startDate ?? Date())
+                    let eventController = EKEventViewController()
+                    eventController.event = reminderEvent
+                    
+                    do {
+                        try self.eventStore.save(reminderEvent, span: .thisEvent)
+                        print("Bedtime event added to the calendar")
+                    } catch {
+                        print("Error saving event: \(error.localizedDescription)")
+                    }
+                }
+            }
+        })
+    }
+    
+    func removeRemindersFromCalendar() {
+        eventStore.requestFullAccessToEvents(completion: { success, error in
+            print("Asking for permission")
+            if success, error == nil {
+                let predicate = self.eventStore.predicateForEvents(withStart: Date(), end: Date().addingTimeInterval(365 * 24 * 60 * 60), calendars: nil)
+                let events = self.eventStore.events(matching: predicate)
+                
+                for event in events {
+                    if event.title == "Bedtime" {
+                        do {
+                            try self.eventStore.remove(event, span: .thisEvent)
+                            print("Bedtime event removed from the calendar")
+                        } catch {
+                            print("Error removing event: \(error.localizedDescription)")
+                        }
+                    }
+                }
+            }
+        })
     }
     
     func scheduleAlarm(_ alarm: Alarm) {
