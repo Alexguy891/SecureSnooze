@@ -8,6 +8,8 @@ import Foundation
 
 class Settings: Codable {
     var sleepGoalHours: Int = 2
+    var bedtime: Date = Date()
+    var enableBedtimeReminder: Bool = false
     var reminderBeforeBedtimeIntervalMinutes: Int = 15
     var requirePasscodeToChangeSleepGoal: Bool = false
     var requirePasscodeToChangeReminderSettings: Bool = false
@@ -15,8 +17,10 @@ class Settings: Codable {
     
     init () { }
     
-    init(sleepGoalHours: Int, reminderBeforeBedtimeIntervalMinutes: Int, requirePasscodeToChangeSleepGoal: Bool, requirePasscodeToChangeReminderSettings: Bool, requirePasscodeToChangeAlarm: Bool) {
+    init(sleepGoalHours: Int, bedtime: Date, enableBedtimeReminder: Bool, reminderBeforeBedtimeIntervalMinutes: Int, requirePasscodeToChangeSleepGoal: Bool, requirePasscodeToChangeReminderSettings: Bool, requirePasscodeToChangeAlarm: Bool) {
         self.sleepGoalHours = sleepGoalHours
+        self.bedtime = bedtime
+        self.enableBedtimeReminder = enableBedtimeReminder
         self.reminderBeforeBedtimeIntervalMinutes = reminderBeforeBedtimeIntervalMinutes
         self.requirePasscodeToChangeSleepGoal = requirePasscodeToChangeSleepGoal
         self.requirePasscodeToChangeReminderSettings = requirePasscodeToChangeReminderSettings
@@ -40,6 +44,8 @@ class Settings: Codable {
                 let decoder = JSONDecoder()
                 let decodedSettings = try decoder.decode(Settings.self, from: settingsData)
                 sleepGoalHours = decodedSettings.sleepGoalHours
+                bedtime = decodedSettings.bedtime
+                enableBedtimeReminder = decodedSettings.enableBedtimeReminder
                 reminderBeforeBedtimeIntervalMinutes = decodedSettings.reminderBeforeBedtimeIntervalMinutes
                 requirePasscodeToChangeSleepGoal = decodedSettings.requirePasscodeToChangeSleepGoal
                 requirePasscodeToChangeReminderSettings = decodedSettings.requirePasscodeToChangeReminderSettings
@@ -51,6 +57,8 @@ class Settings: Codable {
             // print failure and return empty array if cast fails
             print("Failed to load settings from UserDefaults")
             sleepGoalHours = 2
+            bedtime = Date()
+            enableBedtimeReminder = false
             reminderBeforeBedtimeIntervalMinutes = 15
             requirePasscodeToChangeSleepGoal = false
             requirePasscodeToChangeReminderSettings = false

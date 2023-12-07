@@ -17,7 +17,6 @@ class AlarmSettingsTableViewController: UITableViewController {
     @IBOutlet weak var alarmSnoozeLengthStepper: UIStepper!
     @IBOutlet weak var alarmSnoozeLengthLabel: UILabel!
     @IBOutlet weak var alarmSnoozePasscodeSwitch: UISwitch!
-    @IBOutlet weak var alarmReminderSwitch: UISwitch!
     @IBOutlet weak var alarmDatePicker: UIDatePicker!
     
     // selected alarm
@@ -45,9 +44,6 @@ class AlarmSettingsTableViewController: UITableViewController {
     @IBAction func alarmSnoozePasscodeSwitchChanged(_ sender: Any) {
         alarm.requiresPasscodeToSnooze = alarmSnoozePasscodeSwitch.isOn
     }
-    @IBAction func alarmReminderSwitchChanged(_ sender: Any) {
-        alarm.enableReminder = alarmReminderSwitch.isOn
-    }
     @IBAction func alarmDatePickerChanged(_ sender: Any) {
         alarm.time = alarmDatePicker.date
     }
@@ -74,7 +70,6 @@ class AlarmSettingsTableViewController: UITableViewController {
         alarmSnoozeLengthLabel.text = String("\(Int(alarm.snoozeLength)) min")
         alarmSnoozeLengthStepper.value = Double(alarm.snoozeLength)
         alarmSnoozePasscodeSwitch.isOn = alarm.requiresPasscodeToSnooze
-        alarmReminderSwitch.isOn = alarm.enableReminder
         alarmDatePicker.date = alarm.time
         
         // enable snooze options depending on snooze toggle
@@ -143,7 +138,6 @@ class AlarmSettingsTableViewController: UITableViewController {
         alarmSoundLabel.isEnabled = currentlyEditing
         alarmSnoozeSwitch.isEnabled = currentlyEditing
         toggleSnoozeOptions()
-        alarmReminderSwitch.isEnabled = currentlyEditing
         alarmDatePicker.isEnabled = currentlyEditing
     }
     

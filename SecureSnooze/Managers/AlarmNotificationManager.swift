@@ -24,20 +24,55 @@ class AlarmNotificationManager: Codable {
         }
     }
     
+    func scheduleBedtimeReminder(_ bedtime: Date, _ interval: Int, _ enabled: Bool) {
+        if !enabled {
+            return
+        }
+        
+        let center = UNUserNotificationCenter.current()
+        let bedtimeCategory = UNNotificationCategory(identifier: "bedtimeCategory", actions: [], intentIdentifiers: [], options: [])
+        
+        let calendar = Calendar.current
+        let reminderTime = Calendar.current.date(byAdding: .minute, value: -interval, to: bedtime) ?? bedtime
+        let components = calendar.dateComponents([.hour, .minute], from: reminderTime)
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "hh:mm a"
+        let formattedBedtime = dateFormatter.string(from: bedtime)
+        
+        center.setNotificationCategories([bedtimeCategory])
+        let content = UNMutableNotificationContent()
+        content.title = "It's almost time for bed!"
+        content.body = "Bedtime is set for \(formattedBedtime)"
+        content.sound = UNNotificationSound.default
+        content.categoryIdentifier = "bedtimeCategory"
+        
+        let trigger = UNCalendarNotificationTrigger(dateMatching: components, repeats: true)
+        let request = UNNotificationRequest(identifier: "bedtimeReminder", content: content, trigger: trigger)
+        center.add(request) { (error) in
+            if let error = error {
+                print("Error scheduling reminder: \(error.localizedDescription)")
+            } else {
+                print("Reminder scheduled successfully for Time: \(components), current time is: \(calendar.dateComponents([.hour, .minute], from: Date()))")
+            }
+        }
+    }
+    
+    func descheduleReminder() {
+        let center = UNUserNotificationCenter.current()
+        center.removePendingNotificationRequests(withIdentifiers: ["bedtimeReminder"])
+    }
+    
     func scheduleAlarm(_ alarm: Alarm) {
         print("AlarmNotificationManager scheduleAlarm()")
         let center = UNUserNotificationCenter.current()
         
-        let snoozeAction = UNNotificationAction(identifier: "snoozeAction", title: "Snooze", options: [])
-        let stopAction = UNNotificationAction(identifier: "stopAction", title: "Stop", options: [.destructive])
-        
-        let alarmCategory = UNNotificationCategory(identifier: "alarmCategory", actions: [snoozeAction, stopAction], intentIdentifiers: [], options: [])
+        let alarmCategory = UNNotificationCategory(identifier: "alarmCategory", actions: [], intentIdentifiers: [], options: [])
         
         center.setNotificationCategories([alarmCategory])
         
         let content = UNMutableNotificationContent()
         content.title = "Time to wake up!"
-        content.body = "Your alarm for is going off!"
+        content.body = "Your alarm is going off!"
         content.sound = UNNotificationSound.default
         content.categoryIdentifier = "alarmCategory"
         
@@ -57,7 +92,7 @@ class AlarmNotificationManager: Codable {
     
     func descheduleAlarm() {
         let center = UNUserNotificationCenter.current()
-        center.removeAllPendingNotificationRequests()
+        center.removePendingNotificationRequests(withIdentifiers: ["alarmNotification"])
     }
     
     func startSleepSession() {

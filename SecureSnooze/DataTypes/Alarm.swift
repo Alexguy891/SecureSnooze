@@ -74,7 +74,6 @@ class Alarm: Codable {
                 self.limitSnoozes = decodedAlarm.limitSnoozes
                 self.snoozeTries = decodedAlarm.snoozeTries
                 self.snoozeLength = decodedAlarm.snoozeLength
-                self.enableReminder = decodedAlarm.enableReminder
                 self.requiresPasscodeToSnooze = decodedAlarm.requiresPasscodeToSnooze
             } catch {
                 print("Error decoding alarm: \(error)")
