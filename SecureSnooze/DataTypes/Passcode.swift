@@ -8,9 +8,11 @@
 import Foundation
 import CryptoKit
 
+// holds user passcode
 class Passcode: Codable {
     var passcode: String = ""
     
+    // returns SHA256 hash of given string
     func hashPasscode(_ input: String) -> String {
         guard let inputData = input.data(using: .utf8) else {
             fatalError("Failed to convert string to data")
@@ -22,16 +24,18 @@ class Passcode: Codable {
         return hashedString
     }
     
+    // sets passcode to new hashed string
     func setNewPasscode(input: String) {
         passcode = hashPasscode(input)
     }
     
+    // returns if given string is the passcode
     func checkPasscode(input: String) -> Bool {
         return passcode == hashPasscode(input)
     }
     
+    // saves current passcode
     func savePasscode() {
-        print("Passcode savePasscode()")
         do {
             let encoder = JSONEncoder()
             let encodedData = try encoder.encode(self)
@@ -41,8 +45,8 @@ class Passcode: Codable {
         }
     }
     
+    // loads last passcode
     func loadPasscode() {
-        print("Passcode loadPasscode()")
         if let passcodeData = UserDefaults.standard.data(forKey: UserDefaultsKeys.passcode.rawValue) {
             do {
                 let decoder = JSONDecoder()
@@ -52,8 +56,6 @@ class Passcode: Codable {
                 print("Error decoding passcode: \(error)")
             }
         } else {
-            // print failure and return empty array if cast fails
-            print("Failed to load passcode from UserDefaults")
             self.passcode = ""
         }
     }

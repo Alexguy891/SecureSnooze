@@ -6,17 +6,20 @@
 //
 import Foundation
 
+// holds all app settings
 class Settings: Codable {
-    var sleepGoalHours: Int = 2
-    var bedtime: Date = Date()
-    var enableBedtimeReminder: Bool = false
-    var reminderBeforeBedtimeIntervalMinutes: Int = 15
-    var requirePasscodeToChangeSleepGoal: Bool = false
-    var requirePasscodeToChangeReminderSettings: Bool = false
-    var requirePasscodeToChangeAlarm: Bool = false
+    var sleepGoalHours: Int = 2 // users sleep goal in hours
+    var bedtime: Date = Date() // the users designated bedtime
+    var enableBedtimeReminder: Bool = false // whether the user wants to receive bedtime reminders
+    var reminderBeforeBedtimeIntervalMinutes: Int = 15 // how long before bedtime in minutes a bedtime reminder is sent
+    var requirePasscodeToChangeSleepGoal: Bool = false // whether the passcode should be required to access the sleep goal settings screen
+    var requirePasscodeToChangeReminderSettings: Bool = false // whether the passcode should be required to access the reminder settings screen
+    var requirePasscodeToChangeAlarm: Bool = false // whether the passcode should be required after tapping the edit button the alarm screen
     
+    // for default initialization
     init () { }
     
+    // regular initializer
     init(sleepGoalHours: Int, bedtime: Date, enableBedtimeReminder: Bool, reminderBeforeBedtimeIntervalMinutes: Int, requirePasscodeToChangeSleepGoal: Bool, requirePasscodeToChangeReminderSettings: Bool, requirePasscodeToChangeAlarm: Bool) {
         self.sleepGoalHours = sleepGoalHours
         self.bedtime = bedtime
@@ -27,8 +30,8 @@ class Settings: Codable {
         self.requirePasscodeToChangeAlarm = requirePasscodeToChangeAlarm
     }
     
+    // saves current settings
     func saveSettings() {
-        print("Settings saveSettings()")
         do {
             let encoder = JSONEncoder()
             let encodedData = try encoder.encode(self)
@@ -38,6 +41,7 @@ class Settings: Codable {
         }
     }
     
+    // loads last settings
     func loadSettings() {
         if let settingsData = UserDefaults.standard.data(forKey: UserDefaultsKeys.settings.rawValue) {
             do {
@@ -54,8 +58,6 @@ class Settings: Codable {
                 print("Error decoding settings array: \(error)")
             }
         } else {
-            // print failure and return empty array if cast fails
-            print("Failed to load settings from UserDefaults")
             sleepGoalHours = 2
             bedtime = Date()
             enableBedtimeReminder = false

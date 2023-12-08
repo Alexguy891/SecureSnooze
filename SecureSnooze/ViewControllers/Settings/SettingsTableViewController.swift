@@ -1,30 +1,28 @@
-//
-//  SettingsTableViewController.swift
-//  SecureSnooze
-//
-//  Created by Alex Ely on 11/29/23.
-//
-
 import UIKit
 
 class SettingsTableViewController: UITableViewController {
-    var settings = Settings()
-    var passcode = Passcode()
+    var settings = Settings() // the current settings
+    var passcode = Passcode() // the current passcode
     
     override func viewDidLoad() {
         super.viewDidLoad()
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        loadSettings()
+        // get current settings
+        settings.loadSettings()
+        
+        // get current passcode
         passcode.loadPasscode()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
+        // save current settings on exit
         settings.saveSettings()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
+        // deselect all rows after leaving
         if let indexPaths = tableView.indexPathsForSelectedRows {
             for indexPath in indexPaths {
                 tableView.deselectRow(at: indexPath, animated: false)
@@ -32,29 +30,35 @@ class SettingsTableViewController: UITableViewController {
         }
     }
     
+    // when a row is selected
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        // get selected alarm
+        // get selected row
         let selectedCell = tableView.cellForRow(at: indexPath)
         
+        // check which cell was selected by reuseidentifier
         switch selectedCell?.reuseIdentifier {
         case "sleepGoal":
+            // check if passcode needed before going to screen
             if settings.requirePasscodeToChangeSleepGoal {
                 performSegue(withIdentifier: "sleepGoalPasscode", sender: selectedCell)
             } else {
                 performSegue(withIdentifier: "sleepGoalTapped", sender: selectedCell)
             }
         case "reminders":
+            // check if passcode needed before going to screen
             if settings.requirePasscodeToChangeReminderSettings {
                 performSegue(withIdentifier: "reminderPasscode", sender: selectedCell)
             } else {
                 performSegue(withIdentifier: "reminderTapped", sender: selectedCell)
             }
         case "securityPasscode":
+            // check if passcode exists before going to screen
             if passcode.passcode == "" {
                 performSegue(withIdentifier: "securityPasscodeTapped", sender: selectedCell)
             } else {
                 performSegue(withIdentifier: "securityPasscode", sender: selectedCell)
             }
+        // go to extra security steps screen
         case "extraSecuritySteps":
             performSegue(withIdentifier: "extraSecurityStepsTapped", sender: selectedCell)
         default:
@@ -63,6 +67,7 @@ class SettingsTableViewController: UITableViewController {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        // go to settings screen tapped and update parameters
         if let destinationViewController = segue.destination as? SleepGoalSettingsTableViewController {
             destinationViewController.settings = settings
             destinationViewController.hidesBottomBarWhenPushed = true
@@ -72,7 +77,9 @@ class SettingsTableViewController: UITableViewController {
         } else if let destinationViewController = segue.destination as? SecurityPasscodeSettingsTableViewController {
             destinationViewController.settings = settings
             destinationViewController.hidesBottomBarWhenPushed = true
+        // check if going to passcode screen
         } else if let destinationViewController = segue.destination as? PasscodeViewController {
+            // go to proper screen if passcode entered
             if segue.identifier == "sleepGoalPasscode" {
                 destinationViewController.dismissalCallback = {
                     self.performSegue(withIdentifier: "sleepGoalTapped", sender: sender)
@@ -86,23 +93,6 @@ class SettingsTableViewController: UITableViewController {
                     self.performSegue(withIdentifier: "securityPasscodeTapped", sender: sender)
                 }
             }
-        }
-    }
-    
-    func loadSettings() {
-        print("SettingsTableViewController loadSettings()")
-        if let settingsData = UserDefaults.standard.data(forKey: UserDefaultsKeys.settings.rawValue) {
-            do {
-                let decoder = JSONDecoder()
-                let decodedSettings = try decoder.decode(Settings.self, from: settingsData)
-                settings = decodedSettings
-            } catch {
-                print("Error decoding settings array: \(error)")
-            }
-        } else {
-            // print failure and return empty array if cast fails
-            print("Failed to load settings from UserDefaults")
-            settings = Settings()
         }
     }
 }
