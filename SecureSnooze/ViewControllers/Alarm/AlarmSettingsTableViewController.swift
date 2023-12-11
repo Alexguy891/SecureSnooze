@@ -109,6 +109,9 @@ class AlarmSettingsTableViewController: UITableViewController {
         
         // save current alarm notification manager upon exit
         alarmNotificationManager.saveAlarmNotificationManager()
+        
+        // save first time open value
+        saveFirstTimeOpen()
     }
     
     // deselect rows after exiting
@@ -198,7 +201,7 @@ class AlarmSettingsTableViewController: UITableViewController {
         if let firstTimeOpenData = UserDefaults.standard.data(forKey: UserDefaultsKeys.firstTimeOpen.rawValue) {
             do {
                 let decoder = JSONDecoder()
-                try decoder.decode(Settings.self, from: firstTimeOpenData)
+                try decoder.decode(Bool.self, from: firstTimeOpenData)
                 firstTimeOpen = false
             } catch {
                 print("Error decoding firstTimeOpen: \(error)")

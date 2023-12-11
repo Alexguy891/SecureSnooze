@@ -73,7 +73,6 @@ class Alarm: Codable {
     
     // save current alarm
     func saveAlarm() {
-        print("saveAlarm()")
         do {
             let encoder = JSONEncoder()
             let encodedData = try encoder.encode(self)
