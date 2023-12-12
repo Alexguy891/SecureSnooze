@@ -30,19 +30,24 @@ class PasscodeViewController: UIViewController {
                 if passcodeDoesExist {
                     // check if the user entered the correct current passcode
                     if correctPasscodeEntered {
-                        // update the label to show enter new passcode
-                        updateLabelsToChangeNewPasscode()
-                        
                         // check if user has entered a new passcode
                         if newPasscode == "" {
-                            // set the new passcode to a hash string
-                            newPasscode = passcode.hashPasscode(passcodeTextField.text ?? "")
+                            // update the label to show enter new passcode
+                            updateLabelsToChangeNewPasscode()
                             
-                            // clear the passcode text field
-                            resetPasscodeTextField()
-                            
-                            // update the label to show verify new passcode
-                            updateLabelsToVerifyNewPasscode()
+                            // set the newpasscode to a hash of itself
+                            if CharacterSet.decimalDigits.isSuperset(of: CharacterSet(charactersIn: passcodeTextField.text ?? "")) {
+                                newPasscode = passcode.hashPasscode(passcodeTextField.text ?? "")
+                                
+                                // reset the passcode text field
+                                resetPasscodeTextField()
+                                
+                                // update label to show verify new passcode
+                                updateLabelsToVerifyNewPasscode()
+                            } else {
+                                resetPasscodeTextField()
+                                showInvalidPasscodeLabel()
+                            }
                         // check if the new passcode matches the previously entered new passcode
                         } else if newPasscode == passcode.hashPasscode(passcodeTextField.text ?? "") {
                             // set the passcode to the new passcode
@@ -83,13 +88,18 @@ class PasscodeViewController: UIViewController {
                     // check if the user has entered a new passcode
                     if newPasscode == "" {
                         // set the newpasscode to a hash of itself
-                        newPasscode = passcode.hashPasscode(passcodeTextField.text ?? "")
-                        
-                        // reset the passcode text field
-                        resetPasscodeTextField()
-                        
-                        // update label to show verify new passcode
-                        updateLabelsToVerifyNewPasscode()
+                        if CharacterSet.decimalDigits.isSuperset(of: CharacterSet(charactersIn: passcodeTextField.text ?? "")) {
+                            newPasscode = passcode.hashPasscode(passcodeTextField.text ?? "")
+                            
+                            // reset the passcode text field
+                            resetPasscodeTextField()
+                            
+                            // update label to show verify new passcode
+                            updateLabelsToVerifyNewPasscode()
+                        } else {
+                            resetPasscodeTextField()
+                            showInvalidPasscodeLabel()
+                        }
                     // check if the new entered passcode matches the previously entered new passcode
                     } else if newPasscode == passcode.hashPasscode(passcodeTextField.text ?? "") {
                         // set the current passcode to the new passcode
@@ -104,7 +114,7 @@ class PasscodeViewController: UIViewController {
                         // reset the passcode text field
                         resetPasscodeTextField()
                         
-                        // show label that new passcode does not match previously enterd new passcode
+                        // show label that new passcode does not match previously entered new passcode
                         showPasscodesDoNotMatchLabel()
                     }
                 }
@@ -172,7 +182,16 @@ class PasscodeViewController: UIViewController {
     // show incorrect passcode label
     func showIncorrectPasscodeEnteredLabel() {
         // update label to show incorrect passcode
-        invalidPasscodeLabel.text = "Incorrect password, please try again"
+        invalidPasscodeLabel.text = "Incorrect passcode, please try again"
+        
+        // show label
+        invalidPasscodeLabel.isHidden = false
+    }
+    
+    // show invalid passcode label
+    func showInvalidPasscodeLabel() {
+        // update label to show invalid passcode
+        invalidPasscodeLabel.text = "Passcode must only contain numbers"
         
         // show label
         invalidPasscodeLabel.isHidden = false
